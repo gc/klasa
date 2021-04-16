@@ -133,57 +133,6 @@ declare module 'klasa' {
 
 //#endregion Permissions
 
-//#region Schedule
-
-	export class Schedule {
-		public constructor(client: KlasaClient);
-		public client: KlasaClient;
-		public tasks: ScheduledTask[];
-		public timeInterval: number;
-		private _interval: NodeJS.Timer;
-
-		private readonly _tasks: ScheduledTaskOptions[];
-		public init(): Promise<void>;
-		public execute(): Promise<void>;
-		public next(): ScheduledTask;
-		public create(taskName: string, time: Date | number | string, options?: ScheduledTaskOptions): Promise<ScheduledTask>;
-		public get(id: string): ScheduledTask | void;
-		public delete(id: string): Promise<this>;
-		public clear(): Promise<void>;
-
-		private _add(taskName: string, time: Date | number | string, options: ScheduledTaskOptions): ScheduledTask;
-		private _insert(task: ScheduledTask): ScheduledTask;
-		private _clearInterval(): void;
-		private _checkInterval(): void;
-
-		public [Symbol.iterator](): Iterator<ScheduledTask>;
-	}
-
-	export class ScheduledTask {
-		public constructor(client: KlasaClient, taskName: string, time: Date | number | string, options?: ScheduledTaskOptions);
-		public readonly client: KlasaClient;
-		public readonly store: Schedule;
-		public taskName: string;
-		public recurring: Cron | null;
-		public time: Date;
-		public id: string;
-		public data: any;
-
-		private running: boolean;
-
-		public readonly task?: Task;
-		public run(): Promise<this>;
-		public update(options?: ScheduledTaskUpdateOptions): Promise<this>;
-		public delete(): Promise<Schedule>;
-		public toJSON(): ScheduledTaskJSON;
-
-		private static _resolveTime(time: Date | number | Cron | string): [Date, Cron];
-		private static _generateID(client: KlasaClient, time: Date | number): string;
-		private static _validate(st: ScheduledTask): void;
-	}
-
-//#endregion Schedule
-
 //#region Settings
 
 	// https://github.com/microsoft/TypeScript/issues/18877
@@ -847,15 +796,10 @@ declare module 'klasa' {
 		providers?: ProvidersOptions;
 		readyMessage?: ReadyMessage;
 		regexPrefix?: RegExp;
-		schedule?: ScheduleOptions;
 		slowmode?: number;
 		slowmodeAggressive?: boolean;
 		settings?: SettingsOptions;
 		typing?: boolean;
-	}
-
-	export interface ScheduleOptions {
-		interval?: number;
 	}
 
 	export interface SettingsOptions {
@@ -975,26 +919,7 @@ declare module 'klasa' {
 		permission: boolean;
 	}
 
-	// Schedule
-	export interface ScheduledTaskOptions {
-		catchUp?: boolean;
-		data?: any;
-		id?: string;
-	}
-
 	export type TimeResolvable = Cron | Date | number | string;
-
-	export interface ScheduledTaskJSON extends Required<ScheduledTaskOptions> {
-		taskName: string;
-		time: number;
-	}
-
-	export interface ScheduledTaskUpdateOptions extends Filter<ScheduledTaskOptions, 'id'> {
-		id?: never;
-		data?: any;
-		repeat?: string;
-		time?: TimeResolvable;
-	}
 
 	// Structures
 	export interface PieceOptions {
@@ -1385,7 +1310,6 @@ declare module 'klasa' {
 			gateways: GatewayDriver;
 			settings: Settings | null;
 			application: ClientApplication;
-			schedule: Schedule;
 			ready: boolean;
 			mentionPrefix: RegExp | null;
 			registerStore<K, V extends Piece, VConstructor = Constructor<V>>(store: Store<K, V, VConstructor>): KlasaClient;

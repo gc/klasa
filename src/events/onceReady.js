@@ -34,9 +34,6 @@ module.exports = class extends Event {
 		this.client.settings = clientStorage.create(this.client, this.client.user.id);
 		await Promise.all(this.client.gateways.map(gateway => gateway.sync()));
 
-		// Init the schedule
-		await this.client.schedule.init();
-
 		// Init all the pieces
 		await Promise.all(this.client.pieceStores.filter(store => !['providers', 'extendables'].includes(store.name)).map(store => store.init()));
 		util.initClean(this.client);

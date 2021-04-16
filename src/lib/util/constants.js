@@ -101,7 +101,6 @@ exports.DEFAULTS = {
 			},
 			tasks: { enabled: true }
 		},
-		schedule: { interval: 60000 },
 		slowmode: 0,
 		slowmodeAggressive: false,
 		settings: {

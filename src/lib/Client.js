@@ -5,9 +5,6 @@ const path = require('path');
 // lib/permissions
 const PermissionLevels = require('./permissions/PermissionLevels');
 
-// lib/schedule
-const Schedule = require('./schedule/Schedule');
-
 // lib/structures
 const ArgumentStore = require('./structures/ArgumentStore');
 const CommandStore = require('./structures/CommandStore');
@@ -68,7 +65,6 @@ class KlasaClient extends Discord.Client {
 	 * @property {ProvidersOptions} [providers] The provider options
 	 * @property {ReadyMessage} [readyMessage] readyMessage to be passed throughout Klasa's ready event
 	 * @property {RegExp} [regexPrefix] The regular expression prefix if one is provided
-	 * @property {ScheduleOptions} [schedule={}] The options for the internal clock module that runs Schedule
 	 * @property {number} [slowmode=0] Amount of time in ms before the bot will respond to a users command since the last command that user has run
 	 * @property {boolean} [slowmodeAggressive=false] If the slowmode time should reset if a user spams commands faster than the slowmode allows for
 	 * @property {boolean} [typing=false] Whether the bot should type while processing commands
@@ -80,11 +76,6 @@ class KlasaClient extends Discord.Client {
 	 * @typedef {Object} ProvidersOptions
 	 * @property {string} [default] The default provider to use
 	 */
-
-	/**
-	 * @typedef {Object} ScheduleOptions
-	 * @property {number} [interval=60000] The interval in milliseconds for the clock to check the tasks
- 	 */
 
 	/**
 	 * @typedef {Object} SettingsOptions
@@ -296,13 +287,6 @@ class KlasaClient extends Discord.Client {
 
 		const coreDirectory = path.join(__dirname, '../');
 		for (const store of this.pieceStores.values()) store.registerCoreDirectory(coreDirectory);
-
-		/**
-		 * The Schedule that runs the tasks
-		 * @since 0.5.0
-		 * @type {Schedule}
-		 */
-		this.schedule = new Schedule(this);
 
 		/**
 		 * Whether the client is truly ready or not
@@ -573,7 +557,6 @@ KlasaClient.defaultUserSchema = new Schema();
 KlasaClient.defaultClientSchema = new Schema()
 	.add('userBlacklist', 'user', { array: true })
 	.add('guildBlacklist', 'string', { array: true, filter: (__, value) => !MENTION_REGEX.snowflake.test(value) })
-	.add('schedules', 'any', { array: true });
 
 /**
  * Emitted when Klasa is fully ready and initialized.
