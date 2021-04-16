@@ -1,4 +1,3 @@
-console.log("Using custom klasa")
 module.exports = {
 	// KlasaClient
 	KlasaClient: require('./lib/Client'),
