@@ -21,7 +21,7 @@
   },
   "dependencies": {
     "@klasa/querybuilder": "^0.0.1",
-    "@klasa/settings-gateway": "^0.0.10",
+    "@klasa/settings-gateway": "github:gc/sg-fork#master",
     "fs-nextra": "^0.4.5"
   },
   "peerDependencies": {
