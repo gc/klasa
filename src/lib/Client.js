@@ -309,17 +309,6 @@ class KlasaClient extends Discord.Client {
 	}
 
 	/**
-	 * The invite link for the bot
-	 * @since 0.0.1
-	 * @type {string}
-	 * @readonly
-	 */
-	get invite() {
-		const permissions = new Permissions(this.constructor.basePermissions).add(...this.commands.map(command => command.requiredPermissions)).bitfield;
-		return `https://discordapp.com/oauth2/authorize?client_id=${this.application.id}&permissions=${permissions}&scope=bot`;
-	}
-
-	/**
 	 * The owners for this bot
 	 * @since 0.5.0
 	 * @type {Set<KlasaUser>}

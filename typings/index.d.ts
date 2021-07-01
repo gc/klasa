@@ -1288,7 +1288,6 @@ declare module 'klasa' {
 
 		export interface Client {
 			constructor: typeof KlasaClient;
-			readonly invite: string;
 			readonly owners: Set<User>;
 			options: Required<KlasaClientOptions>;
 			userBaseDirectory: string;
