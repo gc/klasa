@@ -20,9 +20,10 @@ class MonitorStore extends Store {
 	 * Runs our monitors on the message.
 	 * @since 0.0.1
 	 * @param {KlasaMessage} message The message object from Discord.js
+	 * @param {boolean} isEdit Is this message just an edit/update of an existing one
 	 */
-	run(message) {
-		for (const monitor of this.values()) if (monitor.shouldRun(message)) monitor._run(message);
+	run(message, isEdit) {
+		for (const monitor of this.values()) if (monitor.shouldRun(message, isEdit)) monitor._run(message, isEdit);
 	}
 
 }
