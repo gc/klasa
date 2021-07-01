@@ -13,7 +13,7 @@ module.exports = class extends Command {
 
 	async run(message, [piece]) {
 		if ((piece.type === 'event' && piece.name === 'message') || (piece.type === 'monitor' && piece.name === 'commandHandler')) {
-			return message.sendLocale('COMMAND_DISABLE_WARN');
+			return;
 		}
 		piece.disable();
 		if (this.client.shard) {
@@ -21,7 +21,7 @@ module.exports = class extends Command {
 				if (String(this.options.shards) !== '${this.client.options.shards}') this.${piece.store}.get('${piece.name}').disable();
 			`);
 		}
-		return message.sendLocale('COMMAND_DISABLE', [piece.type, piece.name], { code: 'diff' });
+		return message.channel.send(`+ Successfully disabled ${piece.type}: ${piece.name}`);
 	}
 
 };

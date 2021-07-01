@@ -23,7 +23,8 @@ module.exports = class extends Command {
 					if (String(this.options.shards) !== '${this.client.options.shards}') this.${piece.name}.loadAll().then(() => this.${piece.name}.init());
 				`);
 			}
-			return message.sendLocale('COMMAND_RELOAD_ALL', [piece, timer.stop()]);
+
+			return message.channel.send(`✅ Reloaded all ${piece}. (Took: ${timer.stop()})`);
 		}
 
 		try {
@@ -34,15 +35,14 @@ module.exports = class extends Command {
 					if (String(this.options.shards) !== '${this.client.options.shards}') this.${piece.store}.get('${piece.name}').reload();
 				`);
 			}
-			return message.sendLocale('COMMAND_RELOAD', [itm.type, itm.name, timer.stop()]);
+			return message.channel.send(`✅ Reloaded ${itm.type}: ${itm.name}. (Took: ${timer.stop()})`);
 		} catch (err) {
 			piece.store.set(piece);
-			return message.sendLocale('COMMAND_RELOAD_FAILED', [piece.type, piece.name]);
+			return message.channel.send(`Failed to reload ${piece.name}.`);
 		}
 	}
 
 	async everything(message) {
-		const timer = new Stopwatch();
 		await Promise.all(this.client.pieceStores.map(async (store) => {
 			await store.loadAll();
 			await store.init();
@@ -55,7 +55,7 @@ module.exports = class extends Command {
 				});
 			`);
 		}
-		return message.sendLocale('COMMAND_RELOAD_EVERYTHING', [timer.stop()]);
+		return message.channel.send('Reloaded everything.');
 	}
 
 };
