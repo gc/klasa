@@ -1308,7 +1308,6 @@ declare module 'klasa' {
 			permissionLevels: PermissionLevels;
 			gateways: GatewayDriver;
 			settings: Settings | null;
-			application: ClientApplication;
 			ready: boolean;
 			mentionPrefix: RegExp | null;
 			registerStore<K, V extends Piece, VConstructor = Constructor<V>>(store: Store<K, V, VConstructor>): KlasaClient;

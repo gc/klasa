@@ -266,13 +266,6 @@ class KlasaClient extends Discord.Client {
 		 */
 		this.settings = null;
 
-		/**
-		 * The application info cached from the discord api
-		 * @since 0.0.1
-		 * @type {external:ClientApplication}
-		 */
-		this.application = null;
-
 		this.registerStore(this.commands)
 			.registerStore(this.inhibitors)
 			.registerStore(this.finalizers)
@@ -321,17 +314,6 @@ class KlasaClient extends Discord.Client {
 			if (user) owners.add(user);
 		}
 		return owners;
-	}
-
-	/**
-	 * Obtains the OAuth Application of the bot from Discord.
-	 * When ran, this function will update {@link KlasaClient#application}.
-	 * @since 0.0.1
-	 * @returns {external:ClientApplication}
-	 */
-	async fetchApplication() {
-		this.application = await super.fetchApplication();
-		return this.application;
 	}
 
 	/**
