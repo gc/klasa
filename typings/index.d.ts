@@ -1332,7 +1332,6 @@ declare module 'klasa' {
 			on(event: 'settingsCreate', listener: (entry: Settings, changes: SettingsUpdateResults, context: SettingsUpdateContext) => void): this;
 			on(event: 'settingsDelete', listener: (entry: Settings) => void): this;
 			on(event: 'settingsUpdate', listener: (entry: Settings, changes: SettingsUpdateResults, context: SettingsUpdateContext) => void): this;
-			on(event: 'taskError', listener: (scheduledTask: ScheduledTask, task: Task, error: Error) => void): this;
 			on(event: 'verbose', listener: (data: any) => void): this;
 			on(event: 'wtf', listener: (failure: Error) => void): this;
 			once(event: 'argumentError', listener: (message: KlasaMessage, command: Command, params: any[], error: string) => void): this;
@@ -1354,7 +1353,6 @@ declare module 'klasa' {
 			once(event: 'settingsCreate', listener: (entry: Settings, changes: SettingsUpdateResults, context: SettingsUpdateContext) => void): this;
 			once(event: 'settingsDelete', listener: (entry: Settings) => void): this;
 			once(event: 'settingsUpdate', listener: (entry: Settings, changes: SettingsUpdateResults, context: SettingsUpdateContext) => void): this;
-			once(event: 'taskError', listener: (scheduledTask: ScheduledTask, task: Task, error: Error) => void): this;
 			once(event: 'verbose', listener: (data: any) => void): this;
 			once(event: 'wtf', listener: (failure: Error) => void): this;
 			off(event: 'argumentError', listener: (message: KlasaMessage, command: Command, params: any[], error: string) => void): this;
@@ -1376,7 +1374,6 @@ declare module 'klasa' {
 			off(event: 'settingsCreate', listener: (entry: Settings, changes: SettingsUpdateResults, context: SettingsUpdateContext) => void): this;
 			off(event: 'settingsDelete', listener: (entry: Settings) => void): this;
 			off(event: 'settingsUpdate', listener: (entry: Settings, changes: SettingsUpdateResults, context: SettingsUpdateContext) => void): this;
-			off(event: 'taskError', listener: (scheduledTask: ScheduledTask, task: Task, error: Error) => void): this;
 			off(event: 'verbose', listener: (data: any) => void): this;
 			off(event: 'wtf', listener: (failure: Error) => void): this;
 		}
@@ -1386,7 +1383,7 @@ declare module 'klasa' {
 			readonly language: Language;
 		}
 
-		export interface Message extends PartialSendAliases {
+		export interface Message {
 			guildSettings: Settings;
 			language: Language;
 			command: Command | null;
@@ -1399,12 +1396,6 @@ declare module 'klasa' {
 			readonly flagArgs: Record<string, string>;
 			readonly reprompted: boolean;
 			readonly reactable: boolean;
-			send(content?: StringResolvable, options?: MessageOptions | MessageAdditions): Promise<KlasaMessage>;
-			send(content?: StringResolvable, options?: MessageOptions & { split?: false } | MessageAdditions): Promise<KlasaMessage>;
-			send(content?: StringResolvable, options?: MessageOptions & { split: true | SplitOptions } | MessageAdditions): Promise<KlasaMessage[]>;
-			send(options?: MessageOptions | MessageAdditions | APIMessage): Promise<KlasaMessage>;
-			send(options?: MessageOptions & { split?: false } | MessageAdditions | APIMessage): Promise<KlasaMessage>;
-			send(options?: MessageOptions & { split: true | SplitOptions } | MessageAdditions | APIMessage): Promise<KlasaMessage[]>;
 			edit(content: StringResolvable, options?: MessageEditOptions | MessageEmbed): Promise<KlasaMessage>;
 			edit(options: MessageEditOptions | MessageEmbed | APIMessage): Promise<KlasaMessage>;
 			usableCommands(): Promise<Collection<string, Command>>;
