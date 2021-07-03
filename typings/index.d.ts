@@ -1405,22 +1405,7 @@ declare module 'klasa' {
 		export interface User extends SendAliases {
 			settings: Settings;
 		}
-
-		export interface TextChannel extends ChannelExtendables { }
-
-		export interface DMChannel extends ChannelExtendables { }
-
-		export interface NewsChannel extends ChannelExtendables { }
-		
-		export interface ThreadChannel extends ChannelExtendables { }
-
-		interface ChannelExtendables {
-			readonly attachable: boolean;
-			readonly embedable: boolean;
-			readonly postable: boolean;
-			readonly readable: boolean;
-		}
-
+	
 		interface Constructor<C> {
 			new(...args: any[]): C;
 		}
