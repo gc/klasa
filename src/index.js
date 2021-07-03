@@ -83,10 +83,6 @@ Object.assign(module.exports, require('@klasa/settings-gateway'));
  * @see {@link https://discord.js.org/#/docs/main/master/typedef/ClientOptions}
  */
 /**
- * @external ClientApplication
- * @see {@link https://discord.js.org/#/docs/main/master/class/ClientApplication}
- */
-/**
  * @external Collection
  * @see {@link https://discord.js.org/#/docs/main/master/class/Collection}
  */

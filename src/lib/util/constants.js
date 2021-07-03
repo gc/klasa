@@ -61,7 +61,7 @@ exports.DEFAULTS = {
 				promptLimit: 0,
 				promptTime: 30000,
 				requiredSettings: [],
-				requiredPermissions: 0,
+				requiredPermissions: [],
 				runIn: ['text', 'dm'],
 				subcommands: false,
 				usage: '',

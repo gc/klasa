@@ -1,4 +1,4 @@
-const { Structures, Collection, APIMessage, Permissions: { FLAGS } } = require('discord.js');
+const { Structures, Collection, Permissions: { FLAGS } } = require('discord.js');
 const { regExpEsc } = require('../util/util');
 
 module.exports = Structures.extend('Message', Message => {
@@ -154,67 +154,6 @@ module.exports = Structures.extend('Message', Message => {
 			return permission;
 		}
 
-		/**
-		 * Sends a message that will be editable via command editing (if nothing is attached)
-		 * @since 0.0.1
-		 * @param {external:StringResolvable|external:MessageEmbed|external:MessageAttachment} [content] The content to send
-		 * @param {external:MessageOptions} [options] The D.JS message options
-		 * @returns {KlasaMessage|KlasaMessage[]}
-		 */
-		async sendMessage(content, options) {
-			const combinedOptions = APIMessage.transformOptions(content, options);
-
-			if ('files' in combinedOptions) return this.channel.send(combinedOptions);
-
-			const newMessages = new APIMessage(this.channel, combinedOptions).resolveData().split()
-				.map(mes => {
-					// Command editing should always remove embeds and content if none is provided
-					mes.data.embed = mes.data.embed || null;
-					mes.data.content = mes.data.content || null;
-					return mes;
-				});
-
-			const { responses } = this;
-			const promises = [];
-			const max = Math.max(newMessages.length, responses.length);
-
-			for (let i = 0; i < max; i++) {
-				if (i >= newMessages.length) responses[i].delete();
-				else if (responses.length > i) promises.push(responses[i].edit(newMessages[i]));
-				else promises.push(this.channel.send(newMessages[i]));
-			}
-
-			const newResponses = await Promise.all(promises);
-
-			// Can't store the clones because deleted will never be true
-			this._responses = newMessages.map((val, i) => responses[i] || newResponses[i]);
-
-			return newResponses.length === 1 ? newResponses[0] : newResponses;
-		}
-
-		/**
-		 * Sends an embed message that will be editable via command editing (if nothing is attached)
-		 * @since 0.0.1
-		 * @param {external:MessageEmbed} embed The embed to post
-		 * @param {external:StringResolvable} [content] The content to send
-		 * @param {external:MessageOptions} [options] The D.JS message options
-		 * @returns {Promise<KlasaMessage|KlasaMessage[]>}
-		 */
-		sendEmbed(embed, content, options) {
-			return this.sendMessage(APIMessage.transformOptions(content, options, { embed }));
-		}
-
-		/**
-		 * Sends a codeblock message that will be editable via command editing (if nothing is attached)
-		 * @since 0.0.1
-		 * @param {string} code The language of the codeblock
-		 * @param {external:StringResolvable} content The content to send
-		 * @param {external:MessageOptions} [options] The D.JS message options
-		 * @returns {Promise<KlasaMessage|KlasaMessage[]>}
-		 */
-		sendCode(code, content, options) {
-			return this.sendMessage(APIMessage.transformOptions(content, options, { code }));
-		}
 
 		/**
 		 * Sends a message that will be editable via command editing (if nothing is attached)
@@ -224,20 +163,7 @@ module.exports = Structures.extend('Message', Message => {
 		 * @returns {Promise<KlasaMessage|KlasaMessage[]>}
 		 */
 		send(content, options) {
-			return this.sendMessage(content, options);
-		}
-
-		/**
-		 * Sends a message that will be editable via command editing (if nothing is attached)
-		 * @since 0.5.0
-		 * @param {string} key The Language key to send
-		 * @param {Array<*>} [localeArgs] The language arguments to pass
-		 * @param {external:MessageOptions} [options] The D.JS message options plus Language arguments
-		 * @returns {Promise<KlasaMessage|KlasaMessage[]>}
-		 */
-		sendLocale(key, localeArgs = [], options = {}) {
-			if (!Array.isArray(localeArgs)) [options, localeArgs] = [localeArgs, []];
-			return this.sendMessage(APIMessage.transformOptions(this.language.get(key, ...localeArgs), undefined, options));
+			return this.channel.send({ ...options, content });
 		}
 
 		/**

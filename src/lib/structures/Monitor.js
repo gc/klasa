@@ -94,9 +94,9 @@ class Monitor extends Piece {
 	 * @param {KlasaMessage} message The message object from Discord.js
 	 * @private
 	 */
-	async _run(message) {
+	async _run(message, isEdit) {
 		try {
-			await this.run(message);
+			await this.run(message, isEdit);
 		} catch (err) {
 			this.client.emit('monitorError', message, this, err);
 		}
@@ -120,14 +120,14 @@ class Monitor extends Piece {
 	 * @param {KlasaMessage} message The message to check
 	 * @returns {boolean}
 	 */
-	shouldRun(message) {
+	shouldRun(message, isEdit) {
 		return this.enabled &&
 			this.allowedTypes.includes(message.type) &&
 			!(this.ignoreBots && message.author.bot) &&
 			!(this.ignoreSelf && this.client.user === message.author) &&
 			!(this.ignoreOthers && this.client.user !== message.author) &&
 			!(this.ignoreWebhooks && message.webhookID) &&
-			!(this.ignoreEdits && message._edits.length) &&
+			!(this.ignoreEdits && isEdit) &&
 			!(this.ignoreBlacklistedUsers && this.client.settings.get('userBlacklist').includes(message.author.id)) &&
 			!(this.ignoreBlacklistedGuilds && message.guild && this.client.settings.get('guildBlacklist').includes(message.guild.id));
 	}
