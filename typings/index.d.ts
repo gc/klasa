@@ -537,16 +537,6 @@ declare module 'klasa' {
 
 	export const constants: Constants;
 
-	export class Cron {
-		public constructor(cron: string);
-		public next(zDay?: Date, origin?: boolean): Date;
-
-		private static _normalize(cron: string): string;
-		private static _parseString(cron: string): number[][];
-		private static _parsePart(cronPart: string, id: number): number[];
-		private static _range(min: number, max: number, step: number): number[];
-	}
-
 	export class Duration {
 		public constructor(pattern: string);
 		public offset: number;
@@ -865,40 +855,6 @@ declare module 'klasa' {
 		TIMESTAMP: {
 			TOKENS: Map<string, number>;
 		};
-		CRON: {
-			partRegex: RegExp;
-			allowedNum: number[][];
-			predefined: {
-				'@annually': string;
-				'@yearly': string;
-				'@monthly': string;
-				'@weekly': string;
-				'@daily': string;
-				'@hourly': string;
-			};
-			tokens: {
-				jan: number;
-				feb: number;
-				mar: number;
-				apr: number;
-				may: number;
-				jun: number;
-				jul: number;
-				aug: number;
-				sep: number;
-				oct: number;
-				nov: number;
-				dec: number;
-				sun: number;
-				mon: number;
-				tue: number;
-				wed: number;
-				thu: number;
-				fri: number;
-				sat: number;
-			};
-			tokensRegex: RegExp;
-		};
 	}
 
 	// Permissions
@@ -918,7 +874,7 @@ declare module 'klasa' {
 		permission: boolean;
 	}
 
-	export type TimeResolvable = Cron | Date | number | string;
+	export type TimeResolvable = Date | number | string;
 
 	// Structures
 	export interface PieceOptions {

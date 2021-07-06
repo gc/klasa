@@ -51,7 +51,6 @@ module.exports = {
 	Colors: require('./lib/util/Colors'),
 	KlasaConsole: require('./lib/util/KlasaConsole'),
 	constants: require('./lib/util/constants'),
-	Cron: require('./lib/util/Cron'),
 	Duration: require('./lib/util/Duration'),
 	RateLimit: require('./lib/util/RateLimit'),
 	RateLimitManager: require('./lib/util/RateLimitManager'),
