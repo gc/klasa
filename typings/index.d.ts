@@ -782,7 +782,6 @@ declare module 'klasa' {
 		commandMessageLifetime?: number;
 		console?: ConsoleOptions;
 		consoleEvents?: ConsoleEvents;
-		createPiecesFolders?: boolean;
 		customPromptDefaults?: CustomPromptDefaults;
 		disabledCorePieces?: string[];
 		language?: string;

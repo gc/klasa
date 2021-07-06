@@ -52,7 +52,6 @@ class KlasaClient extends Discord.Client {
 	 * @property {number} [commandMessageLifetime=1800] The threshold for how old command messages can be before sweeping since the last edit in seconds
 	 * @property {ConsoleOptions} [console={}] Config options to pass to the client console
 	 * @property {ConsoleEvents} [consoleEvents={}] Config options to pass to the client console
-	 * @property {boolean} [createPiecesFolders=true] Whether Klasa should create pieces' folder at start up or not
 	 * @property {CustomPromptDefaults} [customPromptDefaults={}] The defaults for custom prompts
 	 * @property {string[]} [disabledCorePieces=[]] An array of disabled core piece types, e.g., ['commands', 'arguments']
 	 * @property {string} [language='en-US'] The default language Klasa should opt-in for the commands
