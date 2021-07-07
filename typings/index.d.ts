@@ -1358,10 +1358,10 @@ declare module 'klasa' {
 			hasAtLeastPermissionLevel(min: number): Promise<boolean>;
 		}
 
-		export interface User extends SendAliases {
+		export interface User {
 			settings: Settings;
 		}
-	
+
 		interface Constructor<C> {
 			new(...args: any[]): C;
 		}
