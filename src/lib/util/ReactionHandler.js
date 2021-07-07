@@ -33,7 +33,7 @@ class ReactionHandler extends ReactionCollector {
 	 * @param {Emoji[]} emojis The emojis which should be used in this handler
 	 */
 	constructor(message, filter, options, display, emojis) {
-		super(message, filter, options);
+		super(message, { ...options, filter: filter });
 
 		/**
 		 * The RichDisplay/RichMenu this Handler is for
@@ -318,7 +318,7 @@ class ReactionHandler extends ReactionCollector {
 	 * @returns {void}
 	 */
 	update() {
-		this.message.edit({ embed: this.display.pages[this.currentPage] });
+		this.message.edit({ embeds: [this.display.pages[this.currentPage]] });
 	}
 
 	/**
