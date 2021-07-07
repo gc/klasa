@@ -17,6 +17,7 @@ declare module 'klasa' {
 		GuildResolvable,
 		Message,
 		MessageAdditions,
+		MessageEditOptions,
 		MessageEmbed,
 		MessageOptions,
 		MessageReaction,
