@@ -111,11 +111,15 @@ class ReactionHandler extends ReactionCollector {
 		else return this.stop();
 
 		this.on('collect', (reaction, user) => {
-			reaction.users.remove(user);
+			if (this.canManage()) {
+				reaction.users.remove(user);
+			}
 			this[this.methodMap.get(reaction.emoji.id || reaction.emoji.name)](user);
 		});
 		this.on('end', () => {
-			if (this.reactionsDone && !this.message.deleted) this.message.reactions.removeAll();
+			if (this.reactionsDone && !this.message.deleted) {
+				await this.removeAll();
+			}
 		});
 	}
 
@@ -321,6 +325,18 @@ class ReactionHandler extends ReactionCollector {
 		this.message.edit({ embeds: [this.display.pages[this.currentPage]] });
 	}
 
+	canManage() {
+		const perms = !!this.message.client.user && this.message.channel.permissionsFor(this.message.client.user.id);
+		return perms.has('MANAGE_MESSAGES');
+	}
+
+	removeAll() {
+		if (this.canManage()) {
+			return this.message.reactions.removeAll();
+		}
+		return this.message;
+	}
+
 	/**
 	 * The action to take when the "first" emoji is reacted
 	 * @since 0.4.0
@@ -330,7 +346,9 @@ class ReactionHandler extends ReactionCollector {
 	 */
 	async _queueEmojiReactions(emojis) {
 		if (this.message.deleted) return this.stop();
-		if (this.ended) return this.message.reactions.removeAll();
+		if (this.ended) {
+			await this.removeAll();
+		}
 		await this.message.react(emojis.shift());
 		if (emojis.length) return this._queueEmojiReactions(emojis);
 		this.reactionsDone = true;
