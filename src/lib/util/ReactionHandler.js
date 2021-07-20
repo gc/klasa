@@ -118,7 +118,7 @@ class ReactionHandler extends ReactionCollector {
 		});
 		this.on('end', () => {
 			if (this.reactionsDone && !this.message.deleted) {
-				await this.removeAll();
+				this.removeAll();
 			}
 		});
 	}
