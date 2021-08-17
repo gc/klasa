@@ -126,22 +126,6 @@ module.exports = Structures.extend('Message', Message => {
 			return this.channel.readable && this.channel.permissionsFor(this.guild.me).has([FLAGS.ADD_REACTIONS, FLAGS.READ_MESSAGE_HISTORY], false);
 		}
 
-		/**
-		 * The usable commands by the author in this message's context
-		 * @since 0.0.1
-		 * @returns {Collection<string, Command>} The filtered CommandStore
-		 */
-		async usableCommands() {
-			const col = new Collection();
-			await Promise.all(this.client.commands.map((command) =>
-				this.client.inhibitors.run(this, command, true)
-					.then(() => { col.set(command.name, command); })
-					.catch(() => {
-						// noop
-					})
-			));
-			return col;
-		}
 
 		/**
 		 * Checks if the author of this message, has applicable permission in this message's context of at least min

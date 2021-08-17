@@ -1203,7 +1203,6 @@ import { Guild } from 'discord.js';
 			readonly reactable: boolean;
 			edit(content: StringResolvable, options?: MessageEditOptions | MessageEmbed): Promise<KlasaMessage>;
 			edit(options: MessageEditOptions | MessageEmbed | APIMessage): Promise<KlasaMessage>;
-			usableCommands(): Promise<Collection<string, Command>>;
 			hasAtLeastPermissionLevel(min: number): Promise<boolean>;
 		}
 
