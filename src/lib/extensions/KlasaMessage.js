@@ -116,7 +116,7 @@ module.exports = Structures.extend('Message', Message => {
 		 */
 		patch(data) {
 			super.patch(data);
-			this.language = this.guild ? this.guild.language : this.client.languages.default;
+			this.language = this.client.languages.default;
 			this._parseCommand();
 		}
 
@@ -134,7 +134,7 @@ module.exports = Structures.extend('Message', Message => {
 			 * @since 0.3.0
 			 * @type {Language}
 			 */
-			this.language = this.guild ? this.guild.language : this.client.languages.default;
+			this.language = this.client.languages.default;
 
 			this._parseCommand();
 		}
