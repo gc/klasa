@@ -98,18 +98,6 @@ module.exports = Structures.extend('Message', Message => {
 		}
 
 		/**
-		 * If this message can be reacted to by the bot
-		 * @since 0.0.1
-		 * @type {boolean}
-		 * @readonly
-		 */
-		get reactable() {
-			if (!this.guild) return true;
-			return this.channel.readable && this.channel.permissionsFor(this.guild.me).has([FLAGS.ADD_REACTIONS, FLAGS.READ_MESSAGE_HISTORY], false);
-		}
-
-
-		/**
 		 * Checks if the author of this message, has applicable permission in this message's context of at least min
 		 * @since 0.0.1
 		 * @param {number} min The minimum level required

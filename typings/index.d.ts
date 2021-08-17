@@ -1199,9 +1199,6 @@ import { Guild } from 'discord.js';
 			readonly params: any[];
 			readonly flagArgs: Record<string, string>;
 			readonly reprompted: boolean;
-			readonly reactable: boolean;
-			edit(content: StringResolvable, options?: MessageEditOptions | MessageEmbed): Promise<KlasaMessage>;
-			edit(options: MessageEditOptions | MessageEmbed | APIMessage): Promise<KlasaMessage>;
 			hasAtLeastPermissionLevel(min: number): Promise<boolean>;
 		}
 
