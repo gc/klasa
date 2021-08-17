@@ -202,7 +202,7 @@ module.exports = Structures.extend('Message', Message => {
 		 * @since 0.5.0
 		 * @private
 		 */
-		_parseCommand() {
+		async _parseCommand() {
 			// Clear existing command state so edits to non-commands do not re-run commands
 			this.prefix = null;
 			this.prefixLength = null;
@@ -211,7 +211,7 @@ module.exports = Structures.extend('Message', Message => {
 			this.prompter = null;
 
 			try {
-				const prefix = this._customPrefix() || this._mentionPrefix() || this._naturalPrefix() || this._prefixLess();
+				const prefix = await this._customPrefix() || this._mentionPrefix() || this._naturalPrefix() || this._prefixLess();
 				if (!prefix) return;
 
 				this.prefix = prefix.regex;
@@ -238,9 +238,8 @@ module.exports = Structures.extend('Message', Message => {
 		 * @returns {Promise<CachedPrefix | null>}
 		 * @private
 		 */
-		_customPrefix() {
-			const settings = this.guild.client.gateways.get('guilds').get(this.guild);
-			if (!settings) return null;
+		async _customPrefix() {
+			const settings = await this.guild.client.gateways.get('guilds').acquire(this.guild);
 			const prefix = settings.get('prefix');
 			if (!prefix || !prefix.length) return null;
 			for (const prf of Array.isArray(prefix) ? prefix : [prefix]) {
