@@ -212,7 +212,6 @@ module.exports = Structures.extend('Message', Message => {
 
 			try {
 				const prefix = this._customPrefix() || this._mentionPrefix() || this._naturalPrefix() || this._prefixLess();
-
 				if (!prefix) return;
 
 				this.prefix = prefix.regex;
@@ -270,6 +269,7 @@ module.exports = Structures.extend('Message', Message => {
 		 */
 		_naturalPrefix() {
 			const settings = this.guild.client.gateways.get('guilds').get(this.guild);
+			if (!settings) return null;
 			if (settings.get('disableNaturalPrefix') || !this.client.options.regexPrefix) return null;
 			const results = this.client.options.regexPrefix.exec(this.content);
 			return results ? { length: results[0].length, regex: this.client.options.regexPrefix } : null;
