@@ -243,10 +243,8 @@ module.exports = Structures.extend('Message', Message => {
 			if (!settings) return null;
 			const prefix = settings.get('prefix');
 			if (!prefix || !prefix.length) return null;
-			for (const prf of Array.isArray(prefix) ? prefix : [prefix]) {
-				const testingPrefix = this.constructor.prefixes.get(prf) || this.constructor.generateNewPrefix(prf, this.client.options.prefixCaseInsensitive ? 'i' : '');
-				if (testingPrefix.regex.test(this.content)) return testingPrefix;
-			}
+			const testingPrefix = this.constructor.prefixes.get(prefix) || this.constructor.generateNewPrefix(prefix);
+			if (testingPrefix.regex.test(this.content)) return testingPrefix;
 			return null;
 		}
 
@@ -289,12 +287,11 @@ module.exports = Structures.extend('Message', Message => {
 		 * Caches a new prefix regexp
 		 * @since 0.5.0
 		 * @param {string} prefix The prefix to store
-		 * @param {string} flags The flags for the RegExp
 		 * @returns {CachedPrefix}
 		 * @private
 		 */
-		static generateNewPrefix(prefix, flags) {
-			const prefixObject = { length: prefix.length, regex: new RegExp(`^${regExpEsc(prefix)}`, flags) };
+		static generateNewPrefix(prefix) {
+			const prefixObject = { length: prefix.length, regex: new RegExp(`^${regExpEsc(prefix)}`) };
 			this.prefixes.set(prefix, prefixObject);
 			return prefixObject;
 		}

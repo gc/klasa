@@ -70,7 +70,7 @@ declare module 'klasa' {
 		private _mentionPrefix(): CachedPrefix | null;
 		private _naturalPrefix(): CachedPrefix | null;
 		private _prefixLess(): CachedPrefix | null;
-		private static generateNewPrefix(prefix: string, flags: string): CachedPrefix;
+		private static generateNewPrefix(prefix: string): CachedPrefix;
 
 		private static prefixes: Map<string, CachedPrefix>;
 	}
@@ -697,7 +697,6 @@ declare module 'klasa' {
 		permissionLevels?: PermissionLevels;
 		pieceDefaults?: PieceDefaults;
 		prefix?: string;
-		prefixCaseInsensitive?: boolean;
 		production?: boolean;
 		providers?: ProvidersOptions;
 		readyMessage?: ReadyMessage;
