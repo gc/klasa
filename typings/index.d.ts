@@ -11,20 +11,15 @@ declare module 'klasa' {
 		ClientOptions,
 		Collection,
 		DMChannel,
-		EmojiResolvable,
 		Guild,
 		GuildMember,
 		GuildResolvable,
 		Message,
 		MessageAdditions,
-		MessageEditOptions,
-		MessageEmbed,
 		MessageOptions,
-		MessageReaction,
 		MessageType,
 		PermissionResolvable,
 		Permissions,
-		ReactionCollector,
 		Role,
 		Snowflake,
 		StringResolvable,
@@ -61,12 +56,6 @@ declare module 'klasa' {
 	export { KlasaClient as Client };
 
 //#region Extensions
-
-	export class KlasaGuild extends Guild {
-		public settings: Settings;
-		public readonly language: Language;
-	}
-
 	export interface CachedPrefix {
 		regex: RegExp;
 		length: number;
@@ -99,11 +88,11 @@ declare module 'klasa' {
 		public boolean(input: boolean | string): Promise<boolean>;
 		public channel(input: Channel | Snowflake): Promise<Channel>;
 		public float(input: string | number): Promise<number>;
-		public guild(input: KlasaGuild | Snowflake): Promise<KlasaGuild>;
+		public guild(input: Guild | Snowflake): Promise<Guild>;
 		public integer(input: string | number): Promise<number>;
-		public member(input: KlasaUser | GuildMember | Snowflake, guild: KlasaGuild): Promise<GuildMember>;
+		public member(input: KlasaUser | GuildMember | Snowflake, guild: Guild): Promise<GuildMember>;
 		public message(input: KlasaMessage | Snowflake, channel: Channel): Promise<KlasaMessage>;
-		public role(input: Role | Snowflake, guild: KlasaGuild): Promise<Role>;
+		public role(input: Role | Snowflake, guild: Guild): Promise<Role>;
 		public string(input: string): Promise<string>;
 		public url(input: string): Promise<string>;
 		public user(input: KlasaUser | GuildMember | KlasaMessage | Snowflake): Promise<KlasaUser>;
@@ -255,7 +244,6 @@ declare module 'klasa' {
 		public promptLimit: number;
 		public promptTime: number;
 		public quotedStringSupport: boolean;
-		public requiredSettings: string[];
 		public runIn: string[];
 		public subcommands: boolean;
 		public usage: CommandUsage;
@@ -323,8 +311,6 @@ declare module 'klasa' {
 		public ignoreOthers: boolean;
 		public ignoreSelf: boolean;
 		public ignoreWebhooks: boolean;
-		public ignoreBlacklistedUsers: boolean;
-		public ignoreBlacklistedGuilds: boolean;
 
 		public abstract run(message: KlasaMessage): void;
 		public shouldRun(message: KlasaMessage): boolean;
@@ -682,7 +668,7 @@ declare module 'klasa' {
 		public static sleep<T = any>(delay: number, args?: T): Promise<T>;
 		public static toTitleCase(str: string): string;
 		public static tryParse<T = Record<string, any>>(value: string): T | string;
-		public static resolveGuild(client: KlasaClient, guild: GuildResolvable): KlasaGuild;
+		public static resolveGuild(client: KlasaClient, guild: GuildResolvable): Guild;
 		private static initClean(client: KlasaClient): void;
 
 		public static titleCaseVariants: TitleCaseVariants;
@@ -710,7 +696,7 @@ declare module 'klasa' {
 		owners?: string[];
 		permissionLevels?: PermissionLevels;
 		pieceDefaults?: PieceDefaults;
-		prefix?: string | string[];
+		prefix?: string;
 		prefixCaseInsensitive?: boolean;
 		production?: boolean;
 		providers?: ProvidersOptions;
@@ -836,7 +822,6 @@ declare module 'klasa' {
 		promptLimit?: number;
 		promptTime?: number;
 		quotedStringSupport?: boolean;
-		requiredSettings?: string[];
 		runIn?: Array<'text' | 'dm'>;
 		subcommands?: boolean;
 		usage?: string;
@@ -858,7 +843,6 @@ declare module 'klasa' {
 		ignoreOthers?: boolean;
 		ignoreSelf?: boolean;
 		ignoreWebhooks?: boolean;
-		ignoreBlacklistedUsers?: boolean;
 		ignoreBlacklistedGuilds?: boolean;
 	}
 
@@ -1111,6 +1095,7 @@ declare module 'klasa' {
 		SerializerStore,
 		GatewayDriver
 	} from '@klasa/settings-gateway';
+import { Guild } from 'discord.js';
 
 	module 'discord.js' {
 
@@ -1206,13 +1191,7 @@ declare module 'klasa' {
 			off(event: 'wtf', listener: (failure: Error) => void): this;
 		}
 
-		export interface Guild {
-			settings: Settings;
-			readonly language: Language;
-		}
-
 		export interface Message {
-			guildSettings: Settings;
 			language: Language;
 			command: Command | null;
 			commandText: string | null;

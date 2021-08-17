@@ -4,7 +4,6 @@ module.exports = {
 	Client: require('./lib/Client'),
 
 	// lib/extensions
-	KlasaGuild: require('./lib/extensions/KlasaGuild'),
 	KlasaMessage: require('./lib/extensions/KlasaMessage'),
 	KlasaUser: require('./lib/extensions/KlasaUser'),
 	KlasaUserStore: require('./lib/extensions/KlasaUserStore'),
