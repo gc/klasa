@@ -194,13 +194,6 @@ module.exports = Structures.extend('Message', Message => {
 			 */
 			this.language = this.guild ? this.guild.language : this.client.languages.default;
 
-			/**
-			 * The guild level settings for this context (guild || default)
-			 * @since 0.5.0
-			 * @type {Settings}
-			 */
-			this.guildSettings = this.guild ? this.guild.settings : this.client.gateways.get('guilds').schema.defaults;
-
 			this._parseCommand();
 		}
 
@@ -243,11 +236,13 @@ module.exports = Structures.extend('Message', Message => {
 		/**
 		 * Checks if the per-guild or default prefix is used
 		 * @since 0.5.0
-		 * @returns {CachedPrefix | null}
+		 * @returns {Promise<CachedPrefix | null>}
 		 * @private
 		 */
 		_customPrefix() {
-			const prefix = this.guildSettings.get('prefix');
+			const settings = this.guild.client.gateways.get('guilds').get(this.guild);
+			if (!settings) return null;
+			const prefix = settings.get('prefix');
 			if (!prefix || !prefix.length) return null;
 			for (const prf of Array.isArray(prefix) ? prefix : [prefix]) {
 				const testingPrefix = this.constructor.prefixes.get(prf) || this.constructor.generateNewPrefix(prf, this.client.options.prefixCaseInsensitive ? 'i' : '');
@@ -274,7 +269,8 @@ module.exports = Structures.extend('Message', Message => {
 		 * @private
 		 */
 		_naturalPrefix() {
-			if (this.guildSettings.get('disableNaturalPrefix') || !this.client.options.regexPrefix) return null;
+			const settings = this.guild.client.gateways.get('guilds').get(this.guild);
+			if (settings.get('disableNaturalPrefix') || !this.client.options.regexPrefix) return null;
 			const results = this.client.options.regexPrefix.exec(this.content);
 			return results ? { length: results[0].length, regex: this.client.options.regexPrefix } : null;
 		}
