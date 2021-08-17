@@ -1,4 +1,5 @@
 const { Structures, Collection, Permissions: { FLAGS } } = require('discord.js');
+const CommandPrompt = require('../usage/CommandPrompt');
 const { regExpEsc } = require('../util/util');
 
 module.exports = Structures.extend('Message', Message => {
@@ -102,6 +103,9 @@ module.exports = Structures.extend('Message', Message => {
 		 * @readonly
 		 */
 		get flagArgs() {
+			if (!this.prompter && this.command) {
+				this.prompter = new CommandPrompt(this, this.command, { flagSupport: true });
+			}
 			return this.prompter ? this.prompter.flags : {};
 		}
 
