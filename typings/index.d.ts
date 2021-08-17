@@ -63,7 +63,6 @@ declare module 'klasa' {
 
 	export class KlasaMessage extends Message {
 		private prompter: CommandPrompt | null;
-		private _responses: KlasaMessage[];
 		private _patch(data: any): void;
 		private _parseCommand(): void;
 		private _customPrefix(): CachedPrefix | null;

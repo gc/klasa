@@ -55,24 +55,6 @@ module.exports = Structures.extend('Message', Message => {
 			 * @private
 			 */
 			this.prompter = this.prompter || null;
-
-			/**
-			 * The responses to this message
-			 * @since 0.5.0
-			 * @type {external:KlasaMessage[]}
-			 * @private
-			 */
-			this._responses = [];
-		}
-
-		/**
-		 * The previous responses to this message
-		 * @since 0.5.0
-		 * @type {KlasaMessage[]}
-		 * @readonly
-		 */
-		get responses() {
-			return this._responses.filter(msg => !msg.deleted);
 		}
 
 		/**
