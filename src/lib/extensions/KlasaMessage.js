@@ -1,4 +1,4 @@
-const { Structures, Permissions: { FLAGS } } = require('discord.js');
+const { Structures } = require('discord.js');
 const { regExpEsc } = require('../util/util');
 
 module.exports = Structures.extend('Message', Message => {
