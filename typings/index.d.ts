@@ -386,8 +386,6 @@ declare module 'klasa' {
 
 	export class TaskStore extends Store<string, Task, typeof Task> { }
 
-	export class KlasaUserStore extends UserStore { }
-
 //#endregion Stores
 
 //#region Usage
@@ -1102,7 +1100,6 @@ import { Guild } from 'discord.js';
 			options: Required<KlasaClientOptions>;
 			userBaseDirectory: string;
 			console: KlasaConsole;
-			users: KlasaUserStore;
 			arguments: ArgumentStore;
 			commands: CommandStore;
 			inhibitors: InhibitorStore;

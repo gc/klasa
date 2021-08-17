@@ -16,9 +16,6 @@ const LanguageStore = require('./structures/LanguageStore');
 const MonitorStore = require('./structures/MonitorStore');
 const TaskStore = require('./structures/TaskStore');
 
-// lib/extensions
-const KlasaUserStore = require('./extensions/KlasaUserStore');
-
 // lib/util
 const KlasaConsole = require('./util/KlasaConsole');
 const { DEFAULTS, MENTION_REGEX } = require('./util/constants');
@@ -137,13 +134,6 @@ class KlasaClient extends Discord.Client {
 		 * @name KlasaClient#options
 		 * @type {KlasaClientOptions}
 		 */
-
-		/**
-		 * The KlasaUser cache
-		 * @since 0.5.0
-		 * @type {KlasaUserStore}
-		 */
-		this.users = new KlasaUserStore(this);
 
 		/**
 		 * The directory where the user files are at
