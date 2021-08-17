@@ -1,4 +1,4 @@
-const { Structures, Collection, Permissions: { FLAGS } } = require('discord.js');
+const { Structures, Permissions: { FLAGS } } = require('discord.js');
 const { regExpEsc } = require('../util/util');
 
 module.exports = Structures.extend('Message', Message => {
@@ -136,18 +136,6 @@ module.exports = Structures.extend('Message', Message => {
 		async hasAtLeastPermissionLevel(min) {
 			const { permission } = await this.client.permissionLevels.run(this, min);
 			return permission;
-		}
-
-
-		/**
-		 * Sends a message that will be editable via command editing (if nothing is attached)
-		 * @since 0.0.1
-		 * @param {external:StringResolvable|external:MessageEmbed|external:MessageAttachment} [content] The content to send
-		 * @param {external:MessageOptions} [options] The D.JS message options
-		 * @returns {Promise<KlasaMessage|KlasaMessage[]>}
-		 */
-		send(content, options) {
-			return this.channel.send({ ...options, content });
 		}
 
 		/**
