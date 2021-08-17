@@ -211,7 +211,7 @@ module.exports = Structures.extend('Message', Message => {
 			this.prompter = null;
 
 			try {
-				const prefix = this._customPrefix() || this._mentionPrefix() || this._naturalPrefix() || this._prefixLess();
+				const prefix = this._customPrefix() || this._mentionPrefix() || this._prefixLess();
 				if (!prefix) return;
 
 				this.prefix = prefix.regex;
@@ -257,20 +257,6 @@ module.exports = Structures.extend('Message', Message => {
 		_mentionPrefix() {
 			const mentionPrefix = this.client.mentionPrefix.exec(this.content);
 			return mentionPrefix ? { length: mentionPrefix[0].length, regex: this.client.mentionPrefix } : null;
-		}
-
-		/**
-		 * Checks if the natural prefix is used
-		 * @since 0.5.0
-		 * @returns {CachedPrefix | null}
-		 * @private
-		 */
-		_naturalPrefix() {
-			const settings = this.guild.client.gateways.get('guilds').get(this.guild);
-			if (!settings) return null;
-			if (settings.get('disableNaturalPrefix') || !this.client.options.regexPrefix) return null;
-			const results = this.client.options.regexPrefix.exec(this.content);
-			return results ? { length: results[0].length, regex: this.client.options.regexPrefix } : null;
 		}
 
 		/**

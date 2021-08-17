@@ -454,8 +454,6 @@ class KlasaClient extends Discord.Client {
 			guilds.schema.add('language', 'language', { default: client.options.language });
 		}
 
-		guilds.schema.add('disableNaturalPrefix', 'boolean', { configurable: Boolean(client.options.regexPrefix) });
-
 		client.gateways
 			.register(new Gateway(client, 'guilds', guilds))
 			.register(new Gateway(client, 'users', users))
@@ -503,7 +501,6 @@ const { Schema } = require('@klasa/settings-gateway/dist/lib/schema/Schema');
 KlasaClient.defaultGuildSchema = new Schema()
 	.add('prefix', 'string')
 	.add('language', 'language')
-	.add('disableNaturalPrefix', 'boolean')
 	.add('disabledCommands', 'command', {
 		array: true,
 		filter: (client, command, { language }) => {

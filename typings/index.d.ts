@@ -68,7 +68,6 @@ declare module 'klasa' {
 		private _parseCommand(): void;
 		private _customPrefix(): CachedPrefix | null;
 		private _mentionPrefix(): CachedPrefix | null;
-		private _naturalPrefix(): CachedPrefix | null;
 		private _prefixLess(): CachedPrefix | null;
 		private static generateNewPrefix(prefix: string): CachedPrefix;
 
