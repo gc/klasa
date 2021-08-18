@@ -1,4 +1,4 @@
-const { Structures, Collection, Permissions: { FLAGS } } = require('discord.js');
+const { Structures } = require('discord.js');
 const CommandPrompt = require('../usage/CommandPrompt');
 const { regExpEsc } = require('../util/util');
 
@@ -56,24 +56,6 @@ module.exports = Structures.extend('Message', Message => {
 			 * @private
 			 */
 			this.prompter = this.prompter || null;
-
-			/**
-			 * The responses to this message
-			 * @since 0.5.0
-			 * @type {external:KlasaMessage[]}
-			 * @private
-			 */
-			this._responses = [];
-		}
-
-		/**
-		 * The previous responses to this message
-		 * @since 0.5.0
-		 * @type {KlasaMessage[]}
-		 * @readonly
-		 */
-		get responses() {
-			return this._responses.filter(msg => !msg.deleted);
 		}
 
 		/**
@@ -120,34 +102,6 @@ module.exports = Structures.extend('Message', Message => {
 		}
 
 		/**
-		 * If this message can be reacted to by the bot
-		 * @since 0.0.1
-		 * @type {boolean}
-		 * @readonly
-		 */
-		get reactable() {
-			if (!this.guild) return true;
-			return this.channel.readable && this.channel.permissionsFor(this.guild.me).has([FLAGS.ADD_REACTIONS, FLAGS.READ_MESSAGE_HISTORY], false);
-		}
-
-		/**
-		 * The usable commands by the author in this message's context
-		 * @since 0.0.1
-		 * @returns {Collection<string, Command>} The filtered CommandStore
-		 */
-		async usableCommands() {
-			const col = new Collection();
-			await Promise.all(this.client.commands.map((command) =>
-				this.client.inhibitors.run(this, command, true)
-					.then(() => { col.set(command.name, command); })
-					.catch(() => {
-						// noop
-					})
-			));
-			return col;
-		}
-
-		/**
 		 * Checks if the author of this message, has applicable permission in this message's context of at least min
 		 * @since 0.0.1
 		 * @param {number} min The minimum level required
@@ -158,18 +112,6 @@ module.exports = Structures.extend('Message', Message => {
 			return permission;
 		}
 
-
-		/**
-		 * Sends a message that will be editable via command editing (if nothing is attached)
-		 * @since 0.0.1
-		 * @param {external:StringResolvable|external:MessageEmbed|external:MessageAttachment} [content] The content to send
-		 * @param {external:MessageOptions} [options] The D.JS message options
-		 * @returns {Promise<KlasaMessage|KlasaMessage[]>}
-		 */
-		send(content, options) {
-			return this.channel.send({ ...options, content });
-		}
-
 		/**
 		 * Since d.js is dumb and has 2 patch methods, this is for edits
 		 * @since 0.5.0
@@ -178,7 +120,7 @@ module.exports = Structures.extend('Message', Message => {
 		 */
 		patch(data) {
 			super.patch(data);
-			this.language = this.guild ? this.guild.language : this.client.languages.default;
+			this.language = this.client.languages.default;
 			this._parseCommand();
 		}
 
@@ -196,14 +138,7 @@ module.exports = Structures.extend('Message', Message => {
 			 * @since 0.3.0
 			 * @type {Language}
 			 */
-			this.language = this.guild ? this.guild.language : this.client.languages.default;
-
-			/**
-			 * The guild level settings for this context (guild || default)
-			 * @since 0.5.0
-			 * @type {Settings}
-			 */
-			this.guildSettings = this.guild ? this.guild.settings : this.client.gateways.get('guilds').schema.defaults;
+			this.language = this.client.languages.default;
 
 			this._parseCommand();
 		}
@@ -222,8 +157,7 @@ module.exports = Structures.extend('Message', Message => {
 			this.prompter = null;
 
 			try {
-				const prefix = this._customPrefix() || this._mentionPrefix() || this._naturalPrefix() || this._prefixLess();
-
+				const prefix = this._customPrefix() || this._mentionPrefix() || this._prefixLess();
 				if (!prefix) return;
 
 				this.prefix = prefix.regex;
@@ -247,16 +181,16 @@ module.exports = Structures.extend('Message', Message => {
 		/**
 		 * Checks if the per-guild or default prefix is used
 		 * @since 0.5.0
-		 * @returns {CachedPrefix | null}
+		 * @returns {Promise<CachedPrefix | null>}
 		 * @private
 		 */
 		_customPrefix() {
-			const prefix = this.guildSettings.get('prefix');
+			const settings = this.guild.client.gateways.get('guilds').get(this.guild.id);
+			if (!settings) return null;
+			const prefix = settings.get('prefix');
 			if (!prefix || !prefix.length) return null;
-			for (const prf of Array.isArray(prefix) ? prefix : [prefix]) {
-				const testingPrefix = this.constructor.prefixes.get(prf) || this.constructor.generateNewPrefix(prf, this.client.options.prefixCaseInsensitive ? 'i' : '');
-				if (testingPrefix.regex.test(this.content)) return testingPrefix;
-			}
+			const testingPrefix = this.constructor.prefixes.get(prefix) || this.constructor.generateNewPrefix(prefix);
+			if (testingPrefix.regex.test(this.content)) return testingPrefix;
 			return null;
 		}
 
@@ -269,18 +203,6 @@ module.exports = Structures.extend('Message', Message => {
 		_mentionPrefix() {
 			const mentionPrefix = this.client.mentionPrefix.exec(this.content);
 			return mentionPrefix ? { length: mentionPrefix[0].length, regex: this.client.mentionPrefix } : null;
-		}
-
-		/**
-		 * Checks if the natural prefix is used
-		 * @since 0.5.0
-		 * @returns {CachedPrefix | null}
-		 * @private
-		 */
-		_naturalPrefix() {
-			if (this.guildSettings.get('disableNaturalPrefix') || !this.client.options.regexPrefix) return null;
-			const results = this.client.options.regexPrefix.exec(this.content);
-			return results ? { length: results[0].length, regex: this.client.options.regexPrefix } : null;
 		}
 
 		/**
@@ -297,12 +219,11 @@ module.exports = Structures.extend('Message', Message => {
 		 * Caches a new prefix regexp
 		 * @since 0.5.0
 		 * @param {string} prefix The prefix to store
-		 * @param {string} flags The flags for the RegExp
 		 * @returns {CachedPrefix}
 		 * @private
 		 */
-		static generateNewPrefix(prefix, flags) {
-			const prefixObject = { length: prefix.length, regex: new RegExp(`^${regExpEsc(prefix)}`, flags) };
+		static generateNewPrefix(prefix) {
+			const prefixObject = { length: prefix.length, regex: new RegExp(`^${regExpEsc(prefix)}`) };
 			this.prefixes.set(prefix, prefixObject);
 			return prefixObject;
 		}

@@ -150,13 +150,6 @@ class TextPrompt {
 		 * @private
 		 */
 		this._currentUsage = {};
-
-		/**
-		 * A cache of the users responses
-		 * @since 0.5.0
-		 * @type external:Collection
-		 */
-		this.responses = new Collection();
 	}
 
 	/**
@@ -167,7 +160,6 @@ class TextPrompt {
 	 */
 	async run(prompt) {
 		const message = await this.prompt(prompt);
-		this.responses.set(message.id, message);
 		this._setup(message.content);
 		return this.validateArgs();
 	}
@@ -203,8 +195,6 @@ class TextPrompt {
 		);
 		if (this.message.edits.length !== edits || message.prefix || possibleAbortOptions.includes(message.content.toLowerCase())) throw this.message.language.get('MONITOR_COMMAND_HANDLER_ABORTED');
 
-		this.responses.set(message.id, message);
-
 		if (this.typing) this.message.channel.startTyping();
 		this.args[this.args.lastIndexOf(null)] = message.content;
 		this.reprompted = true;
@@ -227,7 +217,6 @@ class TextPrompt {
 			message = await this.prompt(
 				this.message.language.get('MONITOR_COMMAND_HANDLER_REPEATING_REPROMPT', `<@!${this.message.author.id}>`, this._currentUsage.possibles[0].name, this.time / 1000, possibleCancelOptions)
 			);
-			this.responses.set(message.id, message);
 		} catch (err) {
 			return this.validateArgs();
 		}

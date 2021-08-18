@@ -11,20 +11,15 @@ declare module 'klasa' {
 		ClientOptions,
 		Collection,
 		DMChannel,
-		EmojiResolvable,
 		Guild,
 		GuildMember,
 		GuildResolvable,
 		Message,
 		MessageAdditions,
-		MessageEditOptions,
-		MessageEmbed,
 		MessageOptions,
-		MessageReaction,
 		MessageType,
 		PermissionResolvable,
 		Permissions,
-		ReactionCollector,
 		Role,
 		Snowflake,
 		StringResolvable,
@@ -61,12 +56,6 @@ declare module 'klasa' {
 	export { KlasaClient as Client };
 
 //#region Extensions
-
-	export class KlasaGuild extends Guild {
-		public settings: Settings;
-		public readonly language: Language;
-	}
-
 	export interface CachedPrefix {
 		regex: RegExp;
 		length: number;
@@ -74,14 +63,12 @@ declare module 'klasa' {
 
 	export class KlasaMessage extends Message {
 		private prompter: CommandPrompt | null;
-		private _responses: KlasaMessage[];
 		private _patch(data: any): void;
 		private _parseCommand(): void;
 		private _customPrefix(): CachedPrefix | null;
 		private _mentionPrefix(): CachedPrefix | null;
-		private _naturalPrefix(): CachedPrefix | null;
 		private _prefixLess(): CachedPrefix | null;
-		private static generateNewPrefix(prefix: string, flags: string): CachedPrefix;
+		private static generateNewPrefix(prefix: string): CachedPrefix;
 
 		private static prefixes: Map<string, CachedPrefix>;
 	}
@@ -99,11 +86,11 @@ declare module 'klasa' {
 		public boolean(input: boolean | string): Promise<boolean>;
 		public channel(input: Channel | Snowflake): Promise<Channel>;
 		public float(input: string | number): Promise<number>;
-		public guild(input: KlasaGuild | Snowflake): Promise<KlasaGuild>;
+		public guild(input: Guild | Snowflake): Promise<Guild>;
 		public integer(input: string | number): Promise<number>;
-		public member(input: KlasaUser | GuildMember | Snowflake, guild: KlasaGuild): Promise<GuildMember>;
+		public member(input: KlasaUser | GuildMember | Snowflake, guild: Guild): Promise<GuildMember>;
 		public message(input: KlasaMessage | Snowflake, channel: Channel): Promise<KlasaMessage>;
-		public role(input: Role | Snowflake, guild: KlasaGuild): Promise<Role>;
+		public role(input: Role | Snowflake, guild: Guild): Promise<Role>;
 		public string(input: string): Promise<string>;
 		public url(input: string): Promise<string>;
 		public user(input: KlasaUser | GuildMember | KlasaMessage | Snowflake): Promise<KlasaUser>;
@@ -255,7 +242,6 @@ declare module 'klasa' {
 		public promptLimit: number;
 		public promptTime: number;
 		public quotedStringSupport: boolean;
-		public requiredSettings: string[];
 		public runIn: string[];
 		public subcommands: boolean;
 		public usage: CommandUsage;
@@ -323,8 +309,6 @@ declare module 'klasa' {
 		public ignoreOthers: boolean;
 		public ignoreSelf: boolean;
 		public ignoreWebhooks: boolean;
-		public ignoreBlacklistedUsers: boolean;
-		public ignoreBlacklistedGuilds: boolean;
 
 		public abstract run(message: KlasaMessage): void;
 		public shouldRun(message: KlasaMessage): boolean;
@@ -401,8 +385,6 @@ declare module 'klasa' {
 	}
 
 	export class TaskStore extends Store<string, Task, typeof Task> { }
-
-	export class KlasaUserStore extends UserStore { }
 
 //#endregion Stores
 
@@ -634,31 +616,6 @@ declare module 'klasa' {
 		private static _patch(pattern: string): TimestampObject[];
 	}
 
-	export class Type {
-		public constructor(value: any, parent?: Type);
-
-		public value: any;
-		public is: string;
-
-		private parent: Type | null;
-		private childKeys: Map<string, Type>;
-		private childValues: Map<string, Type>;
-
-		private readonly childTypes: string;
-
-		public toString(): string;
-
-		private addValue(value: any): void;
-		private addEntry(entry: [string, any]): void;
-		private parents(): Iterator<Type>;
-		private check(): void;
-		private isCircular(): boolean;
-
-		public static resolve(value: any): string;
-
-		private static list(values: Map<string, Type>): string;
-	}
-
 	class Util {
 		public static arrayFromObject<T = any>(obj: Record<string, any>, prefix?: string): Array<T>;
 		public static arraysStrictEquals(arr1: any[], arr2: any[]): boolean;
@@ -682,7 +639,7 @@ declare module 'klasa' {
 		public static sleep<T = any>(delay: number, args?: T): Promise<T>;
 		public static toTitleCase(str: string): string;
 		public static tryParse<T = Record<string, any>>(value: string): T | string;
-		public static resolveGuild(client: KlasaClient, guild: GuildResolvable): KlasaGuild;
+		public static resolveGuild(client: KlasaClient, guild: GuildResolvable): Guild;
 		private static initClean(client: KlasaClient): void;
 
 		public static titleCaseVariants: TitleCaseVariants;
@@ -710,8 +667,7 @@ declare module 'klasa' {
 		owners?: string[];
 		permissionLevels?: PermissionLevels;
 		pieceDefaults?: PieceDefaults;
-		prefix?: string | string[];
-		prefixCaseInsensitive?: boolean;
+		prefix?: string;
 		production?: boolean;
 		providers?: ProvidersOptions;
 		readyMessage?: ReadyMessage;
@@ -836,7 +792,6 @@ declare module 'klasa' {
 		promptLimit?: number;
 		promptTime?: number;
 		quotedStringSupport?: boolean;
-		requiredSettings?: string[];
 		runIn?: Array<'text' | 'dm'>;
 		subcommands?: boolean;
 		usage?: string;
@@ -858,7 +813,6 @@ declare module 'klasa' {
 		ignoreOthers?: boolean;
 		ignoreSelf?: boolean;
 		ignoreWebhooks?: boolean;
-		ignoreBlacklistedUsers?: boolean;
 		ignoreBlacklistedGuilds?: boolean;
 	}
 
@@ -1111,6 +1065,7 @@ declare module 'klasa' {
 		SerializerStore,
 		GatewayDriver
 	} from '@klasa/settings-gateway';
+import { Guild } from 'discord.js';
 
 	module 'discord.js' {
 
@@ -1120,7 +1075,6 @@ declare module 'klasa' {
 			options: Required<KlasaClientOptions>;
 			userBaseDirectory: string;
 			console: KlasaConsole;
-			users: KlasaUserStore;
 			arguments: ArgumentStore;
 			commands: CommandStore;
 			inhibitors: InhibitorStore;
@@ -1206,13 +1160,7 @@ declare module 'klasa' {
 			off(event: 'wtf', listener: (failure: Error) => void): this;
 		}
 
-		export interface Guild {
-			settings: Settings;
-			readonly language: Language;
-		}
-
 		export interface Message {
-			guildSettings: Settings;
 			language: Language;
 			command: Command | null;
 			commandText: string | null;
@@ -1223,10 +1171,6 @@ declare module 'klasa' {
 			readonly params: any[];
 			readonly flagArgs: Record<string, string>;
 			readonly reprompted: boolean;
-			readonly reactable: boolean;
-			edit(content: StringResolvable, options?: MessageEditOptions | MessageEmbed): Promise<KlasaMessage>;
-			edit(options: MessageEditOptions | MessageEmbed | APIMessage): Promise<KlasaMessage>;
-			usableCommands(): Promise<Collection<string, Command>>;
 			hasAtLeastPermissionLevel(min: number): Promise<boolean>;
 		}
 

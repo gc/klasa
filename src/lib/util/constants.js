@@ -36,7 +36,6 @@ exports.DEFAULTS = {
 		owners: [],
 		// eslint-disable-next-line no-process-env
 		production: process.env.NODE_ENV === 'production',
-		prefixCaseInsensitive: false,
 		providers: { default: 'json' },
 		pieceDefaults: {
 			arguments: {
@@ -59,7 +58,6 @@ exports.DEFAULTS = {
 				permissionLevel: 0,
 				promptLimit: 0,
 				promptTime: 30000,
-				requiredSettings: [],
 				requiredPermissions: [],
 				runIn: ['text', 'dm'],
 				subcommands: false,
@@ -89,8 +87,6 @@ exports.DEFAULTS = {
 				ignoreOthers: true,
 				ignoreWebhooks: true,
 				ignoreEdits: true,
-				ignoreBlacklistedUsers: true,
-				ignoreBlacklistedGuilds: true,
 				allowedTypes: ['DEFAULT']
 			},
 			providers: { enabled: true },

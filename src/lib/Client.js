@@ -16,9 +16,6 @@ const LanguageStore = require('./structures/LanguageStore');
 const MonitorStore = require('./structures/MonitorStore');
 const TaskStore = require('./structures/TaskStore');
 
-// lib/extensions
-const KlasaUserStore = require('./extensions/KlasaUserStore');
-
 // lib/util
 const KlasaConsole = require('./util/KlasaConsole');
 const { DEFAULTS, MENTION_REGEX } = require('./util/constants');
@@ -67,7 +64,6 @@ class KlasaClient extends Discord.Client {
 	 * @property {number} [slowmode=0] Amount of time in ms before the bot will respond to a users command since the last command that user has run
 	 * @property {boolean} [slowmodeAggressive=false] If the slowmode time should reset if a user spams commands faster than the slowmode allows for
 	 * @property {boolean} [typing=false] Whether the bot should type while processing commands
-	 * @property {boolean} [prefixCaseInsensitive=false] Wether the bot should respond to case insensitive prefix or not
 	 * @property {SettingsOptions} [settings] The setting's options
 	 */
 
@@ -138,13 +134,6 @@ class KlasaClient extends Discord.Client {
 		 * @name KlasaClient#options
 		 * @type {KlasaClientOptions}
 		 */
-
-		/**
-		 * The KlasaUser cache
-		 * @since 0.5.0
-		 * @type {KlasaUserStore}
-		 */
-		this.users = new KlasaUserStore(this);
 
 		/**
 		 * The directory where the user files are at
@@ -455,8 +444,6 @@ class KlasaClient extends Discord.Client {
 			guilds.schema.add('language', 'language', { default: client.options.language });
 		}
 
-		guilds.schema.add('disableNaturalPrefix', 'boolean', { configurable: Boolean(client.options.regexPrefix) });
-
 		client.gateways
 			.register(new Gateway(client, 'guilds', guilds))
 			.register(new Gateway(client, 'users', users))
@@ -504,7 +491,6 @@ const { Schema } = require('@klasa/settings-gateway/dist/lib/schema/Schema');
 KlasaClient.defaultGuildSchema = new Schema()
 	.add('prefix', 'string')
 	.add('language', 'language')
-	.add('disableNaturalPrefix', 'boolean')
 	.add('disabledCommands', 'command', {
 		array: true,
 		filter: (client, command, { language }) => {

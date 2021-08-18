@@ -18,7 +18,7 @@
     "fs-nextra": "^0.4.5"
   },
   "peerDependencies": {
-    "discord.js": "github:discordjs/discord.js#master"
+    	"discord.js": "github:discordjs/discord.js#a08ce7dddb5f056128488392742495398f9e33b5"
   },
   "devDependencies": {
     "@types/node": "^12.7.2",

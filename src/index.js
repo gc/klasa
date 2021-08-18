@@ -4,10 +4,8 @@ module.exports = {
 	Client: require('./lib/Client'),
 
 	// lib/extensions
-	KlasaGuild: require('./lib/extensions/KlasaGuild'),
 	KlasaMessage: require('./lib/extensions/KlasaMessage'),
 	KlasaUser: require('./lib/extensions/KlasaUser'),
-	KlasaUserStore: require('./lib/extensions/KlasaUserStore'),
 
 	// lib/permissions
 	PermissionLevels: require('./lib/permissions/PermissionLevels'),
@@ -56,7 +54,6 @@ module.exports = {
 	RateLimitManager: require('./lib/util/RateLimitManager'),
 	Stopwatch: require('./lib/util/Stopwatch'),
 	Timestamp: require('./lib/util/Timestamp'),
-	Type: require('./lib/util/Type'),
 	util: require('./lib/util/util'),
 
 	// version
