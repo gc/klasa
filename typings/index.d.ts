@@ -616,31 +616,6 @@ declare module 'klasa' {
 		private static _patch(pattern: string): TimestampObject[];
 	}
 
-	export class Type {
-		public constructor(value: any, parent?: Type);
-
-		public value: any;
-		public is: string;
-
-		private parent: Type | null;
-		private childKeys: Map<string, Type>;
-		private childValues: Map<string, Type>;
-
-		private readonly childTypes: string;
-
-		public toString(): string;
-
-		private addValue(value: any): void;
-		private addEntry(entry: [string, any]): void;
-		private parents(): Iterator<Type>;
-		private check(): void;
-		private isCircular(): boolean;
-
-		public static resolve(value: any): string;
-
-		private static list(values: Map<string, Type>): string;
-	}
-
 	class Util {
 		public static arrayFromObject<T = any>(obj: Record<string, any>, prefix?: string): Array<T>;
 		public static arraysStrictEquals(arr1: any[], arr2: any[]): boolean;
