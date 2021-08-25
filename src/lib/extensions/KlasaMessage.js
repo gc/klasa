@@ -181,7 +181,7 @@ module.exports = Structures.extend('Message', Message => {
 		 * @private
 		 */
 		_customPrefix() {
-			const settings = this.guild ? this.guild.client.gateways.get('guilds').acquire(this.guild.id) : this.client.gateways.get('guilds').schema.defaults;
+			const settings = this.guild ? this.guild.client.gateways.get('guilds').get(this.guild.id) : this.client.gateways.get('guilds').schema.defaults;
 			if (!settings) return null;
 			const prefix = settings.get('prefix');
 			if (!prefix || !prefix.length) return null;
