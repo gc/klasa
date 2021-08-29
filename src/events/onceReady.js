@@ -24,11 +24,12 @@ module.exports = class extends Event {
 
 		// Initialize guild cache:
 		const guildsGateway = this.client.gateways.get('guilds');
-		const waitForSync = this.client.guilds.cache.map(guild => {
-			const settings = guildsGateway.acquire(guild);
-			return settings.sync(true).then(() => { guildsGateway.cache.set(guild.id, { settings }); });
-		});
-		await Promise.all(waitForSync);
+		await Promise.all(
+			this.client.guilds.cache.map(guild => {
+				const settings = guildsGateway.acquire(guild);
+				return settings.sync(true).then(() => { guildsGateway.cache.set(guild.id, { settings }); });
+			})
+		);
 
 		this.client.ready = true;
 
