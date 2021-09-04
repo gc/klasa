@@ -1,3 +1,4 @@
+const KlasaMessage = require('../lib/expanders/KlasaMessage');
 const { Event } = require('klasa');
 
 module.exports = class extends Event {
@@ -7,7 +8,8 @@ module.exports = class extends Event {
 	}
 
 	run(message) {
-		if (this.client.ready) this.client.monitors.run(message);
+		const kmx = new KlasaMessage(message);
+		if (this.client.ready) this.client.monitors.run(kmx);
 	}
 
 };
