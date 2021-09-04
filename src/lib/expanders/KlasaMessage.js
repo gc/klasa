@@ -197,6 +197,10 @@ class KlasaMessage {
 		return prefixObject;
 	}
 
+	awaitMessageComponentInteraction(options = {}) {
+		return this.message.awaitMessageComponentInteraction(options);
+	}
+
 }
 
 /**

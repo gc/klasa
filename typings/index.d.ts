@@ -25,7 +25,9 @@ declare module 'klasa' {
 		StringResolvable,
 		TextChannel,
 		User,
-		UserStore
+		UserStore,
+		AwaitMessageComponentInteractionOptions,
+		MessageComponentInteraction
 	} from 'discord.js';
 
 	import {
@@ -71,9 +73,12 @@ declare module 'klasa' {
 		private static generateNewPrefix(prefix: string): CachedPrefix;
 
 		private static prefixes: Map<string, CachedPrefix>;
+		public awaitMessageComponentInteraction(
+			options?: AwaitMessageComponentInteractionOptions,
+		): Promise<MessageComponentInteraction>;
 	}
 
-	export class KlasaUser extends User { }
+	// export class KlasaUser extends User { }
 
 //#endregion Extensions
 
@@ -88,12 +93,12 @@ declare module 'klasa' {
 		public float(input: string | number): Promise<number>;
 		public guild(input: Guild | Snowflake): Promise<Guild>;
 		public integer(input: string | number): Promise<number>;
-		public member(input: KlasaUser | GuildMember | Snowflake, guild: Guild): Promise<GuildMember>;
+		public member(input: User | GuildMember | Snowflake, guild: Guild): Promise<GuildMember>;
 		public message(input: KlasaMessage | Snowflake, channel: Channel): Promise<KlasaMessage>;
 		public role(input: Role | Snowflake, guild: Guild): Promise<Role>;
 		public string(input: string): Promise<string>;
 		public url(input: string): Promise<string>;
-		public user(input: KlasaUser | GuildMember | KlasaMessage | Snowflake): Promise<KlasaUser>;
+		public user(input: User | GuildMember | KlasaMessage | Snowflake): Promise<User>;
 
 		public static readonly regex: {
 			userOrMember: RegExp,
@@ -437,7 +442,7 @@ declare module 'klasa' {
 		public constructor(message: KlasaMessage, usage: Usage, options?: TextPromptOptions);
 		public readonly client: KlasaClient;
 		public message: KlasaMessage;
-		public target: KlasaUser;
+		public target: User;
 		public channel: TextChannel | DMChannel;
 		public usage: Usage | CommandUsage;
 		public reprompted: boolean;
@@ -879,7 +884,7 @@ declare module 'klasa' {
 		channel?: TextChannel | DMChannel;
 		limit?: number;
 		quotedStringSupport?: boolean;
-		target?: KlasaUser;
+		target?: User;
 		time?: number;
 		flagSupport?: boolean;
 	}
@@ -1173,11 +1178,11 @@ import { Guild } from 'discord.js';
 			readonly reprompted: boolean;
 			hasAtLeastPermissionLevel(min: number): Promise<boolean>;
 		}
-
+/*
 		export interface User {
 			settings: Settings;
 		}
-
+*/
 		interface Constructor<C> {
 			new(...args: any[]): C;
 		}

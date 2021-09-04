@@ -7,7 +7,7 @@ module.exports = {
 	KlasaMessage: require('./lib/expanders/KlasaMessage'),
 
 	// lib/extensions
-	KlasaUser: require('./lib/extensions/KlasaUser'),
+	// KlasaUser: require('./lib/extensions/KlasaUser'),
 
 	// lib/permissions
 	PermissionLevels: require('./lib/permissions/PermissionLevels'),
