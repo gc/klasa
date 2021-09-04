@@ -1,5 +1,4 @@
 const { regExpEsc } = require('../util/util');
-const KlasaGlobalMap = require('../KlasaGlobalMap');
 
 class KlasaMessage {
 
@@ -10,7 +9,6 @@ class KlasaMessage {
 		 * @type {?Command}
 		 */
 		this.message = message;
-		KlasaGlobalMap.set(message, this);
 
 		this.command = this.command || null;
 
@@ -45,15 +43,7 @@ class KlasaMessage {
 
 		// Initialize KlasaMessageEx
 		this.language = message.client.languages.default;
-		/*
-		this.author = message.author;
-		this.channel = message.channel;
-		this.guild = message.guild;
-		this.client = message.client;
-		this.type = message.type;
-		this.postable = message.postable;
 
-		 */
 		Object.assign(this, message);
 		Object.defineProperty(this, 'client', { value: message.client });
 		Object.defineProperty(this, 'guild', { value: message.guild });
