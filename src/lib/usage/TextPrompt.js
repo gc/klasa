@@ -357,7 +357,7 @@ class TextPrompt {
 	static getFlags(content, delim) {
 		const flags = {};
 		content = content.replace(this.flagRegex, (match, fl, ...quote) => {
-			flags[fl.toLowerCase()] = (quote.slice(0, -2).find(el => el) || fl).replace(/\\/g, '').toLowerCase();
+			flags[fl.toLowerCase()] = (quote.slice(0, -2).find(el => el) || fl).replace(/\\/g, '');
 			return '';
 		});
 		if (delim) content = content.replace(this.delims.get(delim) || this.generateNewDelim(delim), '$1').trim();
