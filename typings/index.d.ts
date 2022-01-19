@@ -43,7 +43,6 @@ declare module 'klasa' {
 		public login(token?: string): Promise<string>;
 		private validatePermissionLevels(): PermissionLevels;
 
-		public sweepMessages(lifetime?: number, commandLifeTime?: number): number;
 		public static basePermissions: Permissions;
 		public static defaultGuildSchema: Schema;
 		public static defaultUserSchema: Schema;
@@ -1094,7 +1093,6 @@ import { Guild } from 'discord.js';
 			mentionPrefix: RegExp | null;
 			registerStore<K, V extends Piece, VConstructor = Constructor<V>>(store: Store<K, V, VConstructor>): KlasaClient;
 			unregisterStore<K, V extends Piece, VConstructor = Constructor<V>>(store: Store<K, V, VConstructor>): KlasaClient;
-			sweepMessages(lifetime?: number, commandLifeTime?: number): number;
 			on(event: 'argumentError', listener: (message: KlasaMessage, command: Command, params: any[], error: string) => void): this;
 			on(event: 'commandError', listener: (message: KlasaMessage, command: Command, params: any[], error: Error | string) => void): this;
 			on(event: 'commandInhibited', listener: (message: KlasaMessage, command: Command, response: string | Error) => void): this;

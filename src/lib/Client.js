@@ -365,46 +365,6 @@ class KlasaClient extends Discord.Client {
 	}
 
 	/**
-	 * Sweeps all text-based channels' messages and removes the ones older than the max message or command message lifetime.
-	 * If the message has been edited, the time of the edit is used rather than the time of the original message.
-	 * @since 0.5.0
-	 * @param {number} [lifetime=this.options.messageCacheLifetime] Messages that are older than this (in seconds)
-	 * will be removed from the caches. The default is based on [ClientOptions#messageCacheLifetime]{@link https://discord.js.org/#/docs/main/master/typedef/ClientOptions?scrollTo=messageCacheLifetime}
-	 * @param {number} [commandLifetime=this.options.commandMessageLifetime] Messages that are older than this (in seconds)
-	 * will be removed from the caches. The default is based on {@link KlasaClientOptions#commandMessageLifetime}
-	 * @returns {number} Amount of messages that were removed from the caches,
-	 * or -1 if the message cache lifetime is unlimited
-	 */
-	sweepMessages(lifetime = this.options.messageCacheLifetime, commandLifetime = this.options.commandMessageLifetime) {
-		if (typeof lifetime !== 'number' || isNaN(lifetime)) throw new TypeError('The lifetime must be a number.');
-		if (lifetime <= 0) {
-			this.emit('debug', 'Didn\'t sweep messages - lifetime is unlimited');
-			return -1;
-		}
-
-		const lifetimeMs = lifetime * 1000;
-		const commandLifetimeMs = commandLifetime * 1000;
-		const now = Date.now();
-		let channels = 0;
-		let messages = 0;
-		let commandMessages = 0;
-
-		for (const channel of this.channels.cache.values()) {
-			if (!channel.messages) continue;
-			channels++;
-
-			channel.messages.cache.sweep(message => {
-				if ((message.command || message.author === this.user) && now - (message.editedTimestamp || message.createdTimestamp) > commandLifetimeMs) return commandMessages++;
-				if (!message.command && message.author !== this.user && now - (message.editedTimestamp || message.createdTimestamp) > lifetimeMs) return messages++;
-				return false;
-			});
-		}
-
-		this.emit('debug', `Swept ${messages} messages older than ${lifetime} seconds and ${commandMessages} command messages older than ${commandLifetime} seconds in ${channels} text-based channels`);
-		return messages;
-	}
-
-	/**
 	 * Caches a plugin module to be used when creating a KlasaClient instance
 	 * @since 0.5.0
 	 * @param {Object} mod The module of the plugin to use
