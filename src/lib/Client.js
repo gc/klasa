@@ -1,9 +1,7 @@
 const Discord = require('discord.js');
-const { Permissions, Permissions: { FLAGS } } = Discord;
+const { Permissions } = Discord;
 const path = require('path');
 
-// lib/permissions
-const PermissionLevels = require('./permissions/PermissionLevels');
 
 // lib/structures
 const ArgumentStore = require('./structures/ArgumentStore');
@@ -38,11 +36,6 @@ class KlasaClient extends Discord.Client {
 	 */
 
 	/**
-	 * Defaulted to KlasaClient.defaultPermissionLevels
-	 * @typedef {PermissionLevels} PermissionLevelsOverload
-	 */
-
-	/**
 	 * @typedef {external:DiscordClientOptions} KlasaClientOptions
 	 * @property {boolean} [commandEditing=false] Whether the bot should update responses if the command is edited
 	 * @property {boolean} [commandLogging=false] Whether the bot should log command usage
@@ -54,7 +47,6 @@ class KlasaClient extends Discord.Client {
 	 * @property {string} [language='en-US'] The default language Klasa should opt-in for the commands
 	 * @property {boolean} [noPrefixDM=false] Whether the bot should allow prefixless messages in DMs
 	 * @property {string[]} [owners] The discord user id for the users the bot should respect as the owner (gotten from Discord api if not provided)
-	 * @property {PermissionLevelsOverload} [permissionLevels] The permission levels to use with this bot
 	 * @property {PieceDefaults} [pieceDefaults={}] Overrides the defaults for all pieces
 	 * @property {string|string[]} [prefix] The default prefix the bot should respond to
 	 * @property {boolean} [production=false] Whether the bot should handle unhandled promise rejections automatically (handles when false) (also can be configured with process.env.NODE_ENV)
@@ -234,13 +226,6 @@ class KlasaClient extends Discord.Client {
 		this.pieceStores = new Discord.Collection();
 
 		/**
-		 * The permissions structure for this bot
-		 * @since 0.0.1
-		 * @type {PermissionLevels}
-		 */
-		this.permissionLevels = this.validatePermissionLevels();
-
-		/**
 		 * The GatewayDriver instance where the gateways are stored
 		 * @since 0.5.0
 		 * @type {GatewayDriver}
@@ -302,19 +287,6 @@ class KlasaClient extends Discord.Client {
 			if (user) owners.add(user);
 		}
 		return owners;
-	}
-
-	/**
-	 * Validates the permission structure passed to the client
-	 * @since 0.0.1
-	 * @returns {PermissionLevels}
-	 * @private
-	 */
-	validatePermissionLevels() {
-		const permissionLevels = this.options.permissionLevels || this.constructor.defaultPermissionLevels;
-		if (!(permissionLevels instanceof PermissionLevels)) throw new Error('permissionLevels must be an instance of the PermissionLevels class');
-		if (permissionLevels.isValid()) return permissionLevels;
-		throw new Error(permissionLevels.debug());
 	}
 
 	/**
@@ -428,17 +400,6 @@ KlasaClient.plugin = Symbol('KlasaPlugin');
  */
 KlasaClient.basePermissions = new Permissions(['VIEW_CHANNEL', 'SEND_MESSAGES']);
 
-/**
- * The default PermissionLevels
- * @since 0.2.1
- * @type {PermissionLevels}
- */
-KlasaClient.defaultPermissionLevels = new PermissionLevels()
-	.add(0, () => true)
-	.add(6, ({ guild, member }) => guild && member.permissions.has(FLAGS.MANAGE_GUILD), { fetch: true })
-	.add(7, ({ guild, member }) => guild && member === guild.owner, { fetch: true })
-	.add(9, ({ author, client }) => client.owners.has(author), { break: true })
-	.add(10, ({ author, client }) => client.owners.has(author));
 
 // Requiring here to avoid circular dependencies
 const { Schema } = require('@klasa/settings-gateway/dist/lib/schema/Schema');

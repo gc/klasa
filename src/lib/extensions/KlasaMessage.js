@@ -98,17 +98,6 @@ module.exports = Structures.extend('Message', Message => {
 		}
 
 		/**
-		 * Checks if the author of this message, has applicable permission in this message's context of at least min
-		 * @since 0.0.1
-		 * @param {number} min The minimum level required
-		 * @returns {boolean}
-		 */
-		async hasAtLeastPermissionLevel(min) {
-			const { permission } = await this.client.permissionLevels.run(this, min);
-			return permission;
-		}
-
-		/**
 		 * Since d.js is dumb and has 2 patch methods, this is for edits
 		 * @since 0.5.0
 		 * @param {*} data The data passed from the original constructor

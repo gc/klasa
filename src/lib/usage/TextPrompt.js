@@ -1,5 +1,4 @@
 const { mergeDefault } = require('../util/util');
-const { Collection } = require('discord.js');
 const quotes = ['"', "'", '“”', '‘’'];
 
 /**

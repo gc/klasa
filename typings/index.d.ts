@@ -41,13 +41,11 @@ declare module 'klasa' {
 	export class KlasaClient extends Client {
 		public constructor(options?: KlasaClientOptions);
 		public login(token?: string): Promise<string>;
-		private validatePermissionLevels(): PermissionLevels;
 
 		public static basePermissions: Permissions;
 		public static defaultGuildSchema: Schema;
 		public static defaultUserSchema: Schema;
 		public static defaultClientSchema: Schema;
-		public static defaultPermissionLevels: PermissionLevels;
 		public static plugin: symbol;
 		public static use(mod: any): typeof KlasaClient;
 	}
@@ -103,22 +101,6 @@ declare module 'klasa' {
 	}
 
 //#endregion Parsers
-
-//#region Permissions
-
-	export class PermissionLevels extends Collection<number, PermissionLevel> {
-		public constructor(levels?: number);
-
-		public add(level: number, check: (message: KlasaMessage) => boolean, options?: PermissionLevelOptions): this;
-		public debug(): string;
-		public isValid(): boolean;
-		public remove(level: number): this;
-		public set(level: number, obj: PermissionLevelOptions | symbol): this;
-
-		public run(message: KlasaMessage, min: number): Promise<PermissionLevelsData>;
-	}
-
-//#endregion Permissions
 
 //#region Settings
 
@@ -237,7 +219,6 @@ declare module 'klasa' {
 		public guarded: boolean;
 		public hidden: boolean;
 		public nsfw: boolean;
-		public permissionLevel: number;
 		public promptLimit: number;
 		public promptTime: number;
 		public quotedStringSupport: boolean;
@@ -664,7 +645,6 @@ declare module 'klasa' {
 		language?: string;
 		noPrefixDM?: boolean;
 		owners?: string[];
-		permissionLevels?: PermissionLevels;
 		pieceDefaults?: PieceDefaults;
 		prefix?: string;
 		production?: boolean;
@@ -743,23 +723,6 @@ declare module 'klasa' {
 		};
 	}
 
-	// Permissions
-	export interface PermissionLevel {
-		break: boolean;
-		check: (message: KlasaMessage) => Promise<boolean> | boolean;
-		fetch: boolean;
-	}
-
-	export interface PermissionLevelOptions {
-		break?: boolean;
-		fetch?: boolean;
-	}
-
-	export interface PermissionLevelsData {
-		broke: boolean;
-		permission: boolean;
-	}
-
 	export type TimeResolvable = Date | number | string;
 
 	// Structures
@@ -787,7 +750,6 @@ declare module 'klasa' {
 		guarded?: boolean;
 		hidden?: boolean;
 		nsfw?: boolean;
-		permissionLevel?: number;
 		promptLimit?: number;
 		promptTime?: number;
 		quotedStringSupport?: boolean;
@@ -1086,7 +1048,6 @@ import { Guild } from 'discord.js';
 			events: EventStore;
 			extendables: ExtendableStore;
 			pieceStores: Collection<string, any>;
-			permissionLevels: PermissionLevels;
 			gateways: GatewayDriver;
 			settings: Settings | null;
 			ready: boolean;
@@ -1169,7 +1130,6 @@ import { Guild } from 'discord.js';
 			readonly params: any[];
 			readonly flagArgs: Record<string, string>;
 			readonly reprompted: boolean;
-			hasAtLeastPermissionLevel(min: number): Promise<boolean>;
 		}
 
 		export interface User {
