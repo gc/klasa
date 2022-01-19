@@ -19,9 +19,6 @@ class Command extends AliasPiece {
 	/**
 	 * @typedef {AliasPieceOptions} CommandOptions
 	 * @property {boolean} [autoAliases=true] If automatic aliases should be added (adds aliases of name and aliases without dashes)
-	 * @property {number} [bucket=1] The number of times this command can be run before ratelimited by the cooldown
-	 * @property {number} [cooldown=0] The amount of time before the user can run the command again in seconds
-	 * @property {string} [cooldownLevel='author'] The level the cooldown applies to (valid options are 'author', 'channel', 'guild')
 	 * @property {boolean} [deletable=false] If the responses should be deleted if the triggering message is deleted
 	 * @property {(string|Function)} [description=''] The help description for the command
 	 * @property {ExtendedHelp} [extendedHelp] Extended help strings
@@ -160,29 +157,6 @@ class Command extends AliasPiece {
 		 * @type {CommandUsage}
 		 */
 		this.usage = new CommandUsage(this.client, options.usage, options.usageDelim, this);
-
-		/**
-		 * The level at which cooldowns should apply
-		 * @since 0.5.0
-		 * @type {string}
-		 */
-		this.cooldownLevel = options.cooldownLevel;
-
-		if (!['author', 'channel', 'guild'].includes(this.cooldownLevel)) throw new Error('Invalid cooldownLevel');
-
-		/**
-		 * The number of times this command can be run before ratelimited by the cooldown
-		 * @since 0.5.0
-		 * @type {number}
-		 */
-		this.bucket = options.bucket;
-
-		/**
-		 * The amount of time before the users can run the command again in seconds based on cooldownLevel
-		 * @since 0.5.0
-		 * @type {number}
-		 */
-		this.cooldown = options.cooldown;
 	}
 
 	/**
@@ -290,7 +264,6 @@ class Command extends AliasPiece {
 			...super.toJSON(),
 			bucket: this.bucket,
 			category: this.category,
-			cooldown: this.cooldown,
 			deletable: this.deletable,
 			description: isFunction(this.description) ? this.description() : this.description,
 			extendedHelp: isFunction(this.extendedHelp) ? this.extendedHelp() : this.extendedHelp,

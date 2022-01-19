@@ -204,12 +204,10 @@ declare module 'klasa' {
 		public constructor(store: CommandStore, file: string[], directory: string, options?: CommandOptions);
 		public readonly bucket: number;
 		public readonly category: string;
-		public readonly cooldown: number;
 		public readonly subCategory: string;
 		public readonly usageDelim: string | null;
 		public readonly usageString: string;
 		public aliases: string[];
-		public cooldownLevel: 'author' | 'channel' | 'guild';
 		public deletable: boolean;
 		public description: string | ((language: Language) => string);
 		public extendedHelp: string | ((language: Language) => string);
@@ -727,8 +725,6 @@ declare module 'klasa' {
 	export interface CommandOptions extends AliasPieceOptions {
 		autoAliases?: boolean;
 		bucket?: number;
-		cooldown?: number;
-		cooldownLevel?: 'author' | 'channel' | 'guild';
 		deletable?: boolean;
 		description?: string | string[] | ((language: Language) => string | string[]);
 		extendedHelp?: string | string[] | ((language: Language) => string | string[]);

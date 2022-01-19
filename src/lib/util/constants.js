@@ -46,8 +46,6 @@ exports.DEFAULTS = {
 				aliases: [],
 				autoAliases: true,
 				bucket: 1,
-				cooldown: 0,
-				cooldownLevel: 'author',
 				description: '',
 				extendedHelp: language => language.get('COMMAND_HELP_NO_EXTENDED'),
 				enabled: true,
