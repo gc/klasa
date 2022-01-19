@@ -54,15 +54,6 @@ module.exports = class extends Language {
 			MONITOR_COMMAND_HANDLER_REPEATING_REPROMPT: (tag, name, time, cancelOptions) => `${tag} | **${name}** is a repeating argument | You have **${time}** seconds to respond to this prompt with additional valid arguments. Type **${cancelOptions.join('**, **')}** to cancel this prompt.`,
 			MONITOR_COMMAND_HANDLER_ABORTED: 'Aborted',
 			// eslint-disable-next-line max-len
-			INHIBITOR_COOLDOWN: (remaining, guildCooldown) => `${guildCooldown ? 'Someone has' : 'You have'} already used this command. You can use this command again in ${remaining} second${remaining === 1 ? '' : 's'}.`,
-			INHIBITOR_DISABLED_GUILD: 'This command has been disabled by an admin in this guild.',
-			INHIBITOR_DISABLED_GLOBAL: 'This command has been globally disabled by the bot owner.',
-			INHIBITOR_MISSING_BOT_PERMS: (missing) => `Insufficient permissions, missing: **${missing}**`,
-			INHIBITOR_NSFW: 'You can only use NSFW commands in NSFW channels.',
-			INHIBITOR_PERMISSIONS: 'You do not have permission to use this command.',
-			INHIBITOR_REQUIRED_SETTINGS: (settings) => `The guild is missing the **${settings.join(', ')}** guild setting${settings.length !== 1 ? 's' : ''} and thus the command cannot run.`,
-			INHIBITOR_RUNIN: (types) => `This command is only available in ${types} channels.`,
-			INHIBITOR_RUNIN_NONE: (name) => `The ${name} command is not configured to run in any channel.`,
 			COMMAND_BLACKLIST_DESCRIPTION: 'Blacklists or un-blacklists users and guilds from the bot.',
 			COMMAND_BLACKLIST_SUCCESS: (usersAdded, usersRemoved, guildsAdded, guildsRemoved) => [
 				usersAdded.length ? `**Users Added**\n${util.codeBlock('', usersAdded.join(', '))}` : '',
@@ -123,7 +114,6 @@ module.exports = class extends Language {
 				'• 🎚🎛 Per-client/guild/user settings that can be extended with your own fields',
 				'• 💬 Customizable command system with automated parameter resolving and the ability to load/reload commands on-the-fly',
 				'• 👀 "Monitors", which can watch messages and edits (for swear filters, spam protection, etc.)',
-				'• ⛔ "Inhibitors", which can prevent commands from running based on any condition you wish to apply (for permissions, blacklists, etc.)',
 				'• 🗄 "Providers", which simplify usage of any database of your choosing',
 				'• ✅ "Finalizers", which run after successful commands (for logging, collecting stats, cleaning up responses, etc.)',
 				'• ➕ "Extendables", which passively add methods, getters/setters, or static properties to existing Discord.js or Klasa classes',

@@ -8,7 +8,6 @@ const { join } = require('path');
  * @see Event
  * @see Extendable
  * @see Finalizer
- * @see Inhibitor
  * @see Language
  * @see Monitor
  * @see Provider

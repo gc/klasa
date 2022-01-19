@@ -57,7 +57,6 @@ exports.DEFAULTS = {
 				nsfw: false,
 				promptLimit: 0,
 				promptTime: 30000,
-				requiredPermissions: [],
 				runIn: ['text', 'dm'],
 				subcommands: false,
 				usage: '',
@@ -74,10 +73,6 @@ exports.DEFAULTS = {
 				appliesTo: []
 			},
 			finalizers: { enabled: true },
-			inhibitors: {
-				enabled: true,
-				spamProtection: false
-			},
 			languages: { enabled: true },
 			monitors: {
 				enabled: true,

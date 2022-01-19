@@ -209,7 +209,6 @@ declare module 'klasa' {
 		public readonly usageDelim: string | null;
 		public readonly usageString: string;
 		public aliases: string[];
-		public requiredPermissions: Permissions;
 		public cooldownLevel: 'author' | 'channel' | 'guild';
 		public deletable: boolean;
 		public description: string | ((language: Language) => string);
@@ -265,13 +264,6 @@ declare module 'klasa' {
 		protected _run(message: KlasaMessage, command: Command, response: KlasaMessage | KlasaMessage[] | null, runTime: Stopwatch): Promise<void>;
 	}
 
-	export abstract class Inhibitor extends Piece {
-		public constructor(store: InhibitorStore, file: string[], directory: string, options?: InhibitorOptions);
-		public spamProtection: boolean;
-		public abstract run(message: KlasaMessage, command: Command): void | boolean | string | Promise<void | boolean | string>;
-		public toJSON(): PieceInhibitorJSON;
-		protected _run(message: KlasaMessage, command: Command): Promise<boolean | string>;
-	}
 
 	export abstract class Language extends Piece {
 		public constructor(store: LanguageStore, file: string[], directory: string, options?: LanguageOptions);
@@ -350,10 +342,6 @@ declare module 'klasa' {
 
 	export class FinalizerStore extends Store<string, Finalizer, typeof Finalizer> {
 		public run(message: KlasaMessage, command: Command, response: KlasaMessage | KlasaMessage[], runTime: Stopwatch): Promise<void>;
-	}
-
-	export class InhibitorStore extends Store<string, Inhibitor, typeof Inhibitor> {
-		public run(message: KlasaMessage, command: Command, selective?: boolean): Promise<void>;
 	}
 
 	export class LanguageStore extends Store<string, Language, typeof Language> {
@@ -675,7 +663,6 @@ declare module 'klasa' {
 		events?: EventOptions;
 		extendables?: ExtendableOptions;
 		finalizers?: FinalizerOptions;
-		inhibitors?: InhibitorOptions;
 		languages?: LanguageOptions;
 		monitors?: MonitorOptions;
 		providers?: ProviderOptions;
@@ -739,7 +726,6 @@ declare module 'klasa' {
 
 	export interface CommandOptions extends AliasPieceOptions {
 		autoAliases?: boolean;
-		requiredPermissions?: PermissionResolvable;
 		bucket?: number;
 		cooldown?: number;
 		cooldownLevel?: 'author' | 'channel' | 'guild';
@@ -761,10 +747,6 @@ declare module 'klasa' {
 
 	export interface ExtendableOptions extends PieceOptions {
 		appliesTo: any[];
-	}
-
-	export interface InhibitorOptions extends PieceOptions {
-		spamProtection?: boolean;
 	}
 
 	export interface MonitorOptions extends PieceOptions {
@@ -807,10 +789,9 @@ declare module 'klasa' {
 		instancePropertyDescriptors: PropertyDescriptorMap;
 	}
 
-	export interface PieceCommandJSON extends AliasPieceJSON, Filter<Required<CommandOptions>, 'requiredPermissions' | 'usage'> {
+	export interface PieceCommandJSON extends AliasPieceJSON, Filter<Required<CommandOptions>,  'usage'> {
 		category: string;
 		subCategory: string;
-		requiredPermissions: string[];
 		usage: {
 			usageString: string;
 			usageDelim: string | null;
@@ -826,7 +807,6 @@ declare module 'klasa' {
 		emitter: string;
 	}
 
-	export interface PieceInhibitorJSON extends PieceJSON, Required<InhibitorOptions> { }
 	export interface PieceMonitorJSON extends PieceJSON, Required<MonitorOptions> { }
 	export interface PieceArgumentJSON extends AliasPieceJSON, Required<ArgumentOptions> { }
 	export interface PieceSerializerJSON extends AliasPieceJSON, Required<SerializerOptions> { }
@@ -1038,7 +1018,6 @@ import { Guild } from 'discord.js';
 			console: KlasaConsole;
 			arguments: ArgumentStore;
 			commands: CommandStore;
-			inhibitors: InhibitorStore;
 			finalizers: FinalizerStore;
 			monitors: MonitorStore;
 			languages: LanguageStore;

@@ -9,7 +9,6 @@ const CommandStore = require('./structures/CommandStore');
 const EventStore = require('./structures/EventStore');
 const ExtendableStore = require('./structures/ExtendableStore');
 const FinalizerStore = require('./structures/FinalizerStore');
-const InhibitorStore = require('./structures/InhibitorStore');
 const LanguageStore = require('./structures/LanguageStore');
 const MonitorStore = require('./structures/MonitorStore');
 const TaskStore = require('./structures/TaskStore');
@@ -94,7 +93,6 @@ class KlasaClient extends Discord.Client {
 	 * @property {EventOptions} [events={}] The default event options
 	 * @property {ExtendableOptions} [extendables={}] The default extendable options
 	 * @property {FinalizerOptions} [finalizers={}] The default finalizer options
-	 * @property {InhibitorOptions} [inhibitors={}] The default inhibitor options
 	 * @property {LanguageOptions} [languages={}] The default language options
 	 * @property {MonitorOptions} [monitors={}] The default monitor options
 	 * @property {ProviderOptions} [providers={}] The default provider options
@@ -155,12 +153,6 @@ class KlasaClient extends Discord.Client {
 		 */
 		this.commands = new CommandStore(this);
 
-		/**
-		 * The cache where inhibitors are stored
-		 * @since 0.0.1
-		 * @type {InhibitorStore}
-		 */
-		this.inhibitors = new InhibitorStore(this);
 
 		/**
 		 * The cache where finalizers are stored
@@ -240,7 +232,6 @@ class KlasaClient extends Discord.Client {
 		this.settings = null;
 
 		this.registerStore(this.commands)
-			.registerStore(this.inhibitors)
 			.registerStore(this.finalizers)
 			.registerStore(this.monitors)
 			.registerStore(this.languages)
