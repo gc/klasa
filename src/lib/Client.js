@@ -454,64 +454,6 @@ KlasaClient.defaultClientSchema = new Schema()
  */
 
 /**
- * Emitted when an unknown command is called.
- * @event KlasaClient#commandUnknown
- * @since 0.4.0
- * @param {KlasaMessage} message The message that triggered the command
- * @param {string} command The command attempted to run
- * @param {RegExp} prefix The prefix used
- * @param {number} prefixLength The length of the prefix used
- */
-
-/**
- * Emitted when a command has been inhibited.
- * @event KlasaClient#commandInhibited
- * @since 0.3.0
- * @param {KlasaMessage} message The message that triggered the command
- * @param {Command} command The command triggered
- * @param {?string[]} response The reason why it was inhibited if not silent
- */
-
-/**
- * Emitted when a command has been run.
- * @event KlasaClient#commandRun
- * @since 0.3.0
- * @param {KlasaMessage} message The message that triggered the command
- * @param {Command} command The command run
- * @param {string[]} args The raw arguments of the command
- */
-
-/**
- * Emitted when a command has been run.
- * @event KlasaClient#commandSuccess
- * @since 0.5.0
- * @param {KlasaMessage} message The message that triggered the command
- * @param {Command} command The command run
- * @param {any[]} params The resolved parameters of the command
- * @param {?any} response Usually a response message, but whatever the command returned
- */
-
-/**
- * Emitted when a command has encountered an error.
- * @event KlasaClient#commandError
- * @since 0.3.0
- * @param {KlasaMessage} message The message that triggered the command
- * @param {Command} command The command run
- * @param {any[]} params The resolved parameters of the command
- * @param {Object} error The command error
- */
-
-/**
- * Emitted when an invalid argument is passed to a command.
- * @event KlasaClient#argumentError
- * @since 0.5.0
- * @param {KlasaMessage} message The message that triggered the command
- * @param {Command} command The command run
- * @param {any[]} params The resolved parameters of the command
- * @param {string} error The argument error
- */
-
-/**
  * Emitted when an event has encountered an error.
  * @event KlasaClient#eventError
  * @since 0.5.0
