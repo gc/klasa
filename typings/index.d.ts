@@ -208,9 +208,7 @@ declare module 'klasa' {
 		public readonly usageDelim: string | null;
 		public readonly usageString: string;
 		public aliases: string[];
-		public deletable: boolean;
-		public description: string | ((language: Language) => string);
-		public extendedHelp: string | ((language: Language) => string);
+		public description: string;
 		public flagSupport: boolean;
 		public fullCategory: string[];
 		public guarded: boolean;

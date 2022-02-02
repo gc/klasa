@@ -47,7 +47,6 @@ exports.DEFAULTS = {
 				autoAliases: true,
 				bucket: 1,
 				description: '',
-				extendedHelp: language => language.get('COMMAND_HELP_NO_EXTENDED'),
 				enabled: true,
 				flagSupport: true,
 				guarded: false,
