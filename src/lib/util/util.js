@@ -298,6 +298,8 @@ class Util {
 		return given;
 	}
 
+}
+
 /**
  * Promisified version of child_process.exec for use with await
  * @since 0.3.0
