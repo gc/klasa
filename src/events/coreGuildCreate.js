@@ -12,6 +12,10 @@ module.exports = class extends Event {
 			guild.leave();
 			this.client.emit('warn', `Blacklisted guild detected: ${guild.name} [${guild.id}]`);
 		}
+		/* Create cache entry for new guild: */
+		const guildsGateway = this.client.gateways.get('guilds');
+		const guildSettings = guildsGateway.acquire(guild);
+		guildSettings.sync(true).then(() => guildsGateway.cache.set(guild.id, { settings: guildSettings }));
 	}
 
 };
