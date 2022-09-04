@@ -20,7 +20,6 @@ class Event extends Piece {
 	 * @param {EventStore} store The Event Store
 	 * @param {string} file The path from the pieces folder to the event file
 	 * @param {string} directory The base directory to the pieces folder
-	 * @param {EventOptions} [options={}] Optional Event settings
 	 */
 	constructor(store, file, directory, options = {}) {
 		super(store, file, directory, options);

@@ -301,17 +301,6 @@ class Util {
 }
 
 /**
- * Promisified version of child_process.exec for use with await
- * @since 0.3.0
- * @param {string} command The command to run
- * @param {external:ExecOptions} [options] The options to pass to exec
- * @returns {Promise<{ stdout: string, stderr: string }>}
- * @method
- * @static
- */
-Util.exec = promisify(exec);
-
-/**
  * Promisified version of setTimeout for use with await
  * @since 0.3.0
  * @param {number} delay The amount of time in ms to delay

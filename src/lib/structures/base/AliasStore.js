@@ -3,7 +3,6 @@ const Store = require('./Store');
 
 /**
  * The common base for all stores with aliases
- * @see CommandStore
  * @see ArgumentStore
  * @see SerializerStore
  * @extends Store

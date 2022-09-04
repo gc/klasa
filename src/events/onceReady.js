@@ -10,26 +10,8 @@ module.exports = class extends Event {
 	}
 
 	async run() {
-		this.client.mentionPrefix = new RegExp(`^<@!?${this.client.user.id}>`);
-
-		const clientStorage = this.client.gateways.get('clientStorage');
-		// Added for consistency with other datastores, Client#clients does not exist
-		clientStorage.cache.set(this.client.user.id, this.client);
-		this.client.settings = clientStorage.create(this.client, this.client.user.id);
-		await Promise.all(this.client.gateways.map(gateway => gateway.sync()));
-
 		// Init all the pieces
-		await Promise.all(this.client.pieceStores.filter(store => !['providers', 'extendables'].includes(store.name)).map(store => store.init()));
 		util.initClean(this.client);
-
-		// Initialize guild cache:
-		const guildsGateway = this.client.gateways.get('guilds');
-		await Promise.all(
-			this.client.guilds.cache.map(guild => {
-				const settings = guildsGateway.acquire(guild);
-				return settings.sync(true).then(() => { guildsGateway.cache.set(guild.id, { settings }); });
-			})
-		);
 
 		this.client.ready = true;
 

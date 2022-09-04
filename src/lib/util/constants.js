@@ -7,11 +7,7 @@ const colorBase = {
 };
 
 exports.DEFAULTS = {
-
 	CLIENT: {
-		commandEditing: false,
-		commandLogging: false,
-		commandMessageLifetime: 1800,
 		console: {},
 		consoleEvents: {
 			debug: false,
@@ -36,12 +32,7 @@ exports.DEFAULTS = {
 		owners: [],
 		// eslint-disable-next-line no-process-env
 		production: process.env.NODE_ENV === 'production',
-		providers: { default: 'json' },
 		pieceDefaults: {
-			arguments: {
-				enabled: true,
-				aliases: []
-			},
 			commands: {
 				aliases: [],
 				autoAliases: true,
@@ -56,7 +47,6 @@ exports.DEFAULTS = {
 				promptTime: 30000,
 				runIn: ['text', 'dm'],
 				subcommands: false,
-				usage: '',
 				quotedStringSupport: false,
 				deletable: false
 			},
@@ -64,40 +54,11 @@ exports.DEFAULTS = {
 				enabled: true,
 				once: false
 			},
-			extendables: {
-				enabled: true,
-				klasa: false,
-				appliesTo: []
-			},
-			finalizers: { enabled: true },
 			languages: { enabled: true },
-			monitors: {
-				enabled: true,
-				ignoreBots: true,
-				ignoreSelf: true,
-				ignoreOthers: true,
-				ignoreWebhooks: true,
-				ignoreEdits: true,
-				allowedTypes: ['DEFAULT']
-			},
-			providers: { enabled: true },
-			serializers: {
-				enabled: true,
-				aliases: []
-			},
 			tasks: { enabled: true }
 		},
 		slowmode: 0,
-		slowmodeAggressive: false,
-		settings: {
-			preserve: true,
-			throwOnError: false,
-			gateways: {
-				guilds: {},
-				users: {},
-				clientStorage: {}
-			}
-		}
+		slowmodeAggressive: false
 	},
 
 	CONSOLE: {

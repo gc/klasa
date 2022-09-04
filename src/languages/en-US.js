@@ -11,13 +11,6 @@ module.exports = class extends Language {
 				`es for this guild are: ${prefix.map(pre => `\`${pre}\``).join(', ')}` :
 				` in this guild is set to: \`${prefix}\``
 			}`,
-			SETTING_GATEWAY_KEY_NOEXT: (key) => `The key "${key}" does not exist in the data schema.`,
-			SETTING_GATEWAY_CHOOSE_KEY: (keys) => `You cannot edit a settings group, pick any of the following: "${keys.join('", "')}"`,
-			SETTING_GATEWAY_UNCONFIGURABLE_FOLDER: 'This settings group does not have any configurable sub-key.',
-			SETTING_GATEWAY_UNCONFIGURABLE_KEY: (key) => `The settings key "${key}" has been marked as non-configurable by the bot owner.`,
-			SETTING_GATEWAY_MISSING_VALUE: (entry, value) => `The value "${value}" cannot be removed from the key "${entry.path}" because it does not exist.`,
-			SETTING_GATEWAY_DUPLICATE_VALUE: (entry, value) => `The value "${value}" cannot be added to the key "${entry.path}" because it was already set.`,
-			SETTING_GATEWAY_INVALID_FILTERED_VALUE: (entry, value) => `The settings key "${entry.path}" does not accept the value "${value}".`,
 			RESOLVER_MULTI_TOO_FEW: (name, min = 1) => `Provided too few ${name}s. At least ${min} ${min === 1 ? 'is' : 'are'} required.`,
 			RESOLVER_INVALID_BOOL: (name) => `${name} must be true or false.`,
 			RESOLVER_INVALID_CHANNEL: (name) => `${name} must be a channel tag or valid channel id.`,
@@ -111,7 +104,6 @@ module.exports = class extends Language {
 				'',
 				'Some features of Klasa include:',
 				'• 🐇💨 Fast loading times with ES2017 support (`async`/`await`)',
-				'• 🎚🎛 Per-client/guild/user settings that can be extended with your own fields',
 				'• 💬 Customizable command system with automated parameter resolving and the ability to load/reload commands on-the-fly',
 				'• 👀 "Monitors", which can watch messages and edits (for swear filters, spam protection, etc.)',
 				'• 🗄 "Providers", which simplify usage of any database of your choosing',
@@ -141,11 +133,6 @@ module.exports = class extends Language {
 			COMMAND_CONF_GET_NOEXT: (key) => `The key **${key}** does not seem to exist.`,
 			COMMAND_CONF_GET: (key, value) => `The value for the key **${key}** is: \`${value}\``,
 			COMMAND_CONF_RESET: (key, response) => `The key **${key}** has been reset to: \`${response}\``,
-			COMMAND_CONF_NOCHANGE: (key) => `The value for **${key}** was already that value.`,
-			COMMAND_CONF_SERVER_DESCRIPTION: 'Define per-guild settings.',
-			COMMAND_CONF_SERVER: (key, list) => `**Guild Settings${key}**\n${list}`,
-			COMMAND_CONF_USER_DESCRIPTION: 'Define per-user settings.',
-			COMMAND_CONF_USER: (key, list) => `**User Settings${key}**\n${list}`,
 			COMMAND_STATS: (memUsage, uptime, users, guilds, channels, klasaVersion, discordVersion, processVersion, message) => [
 				'= STATISTICS =',
 				'',

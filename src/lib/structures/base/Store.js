@@ -5,14 +5,10 @@ const { isClass } = require('../../util/util');
 
 /**
  * The common base for all stores
- * @see ArgumentStore
  * @see CommandStore
  * @see EventStore
- * @see ExtendableStore
- * @see FinalizerStore
  * @see LanguageStore
  * @see MonitorStore
- * @see ProviderStore
  * @see SerializerStore
  * @see TaskStore
  * @extends external:Collection

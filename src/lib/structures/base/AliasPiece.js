@@ -2,7 +2,6 @@ const Piece = require('./Piece');
 
 /**
  * The common class for all pieces with aliases
- * @see Command
  * @see Argument
  * @see Serializer
  */

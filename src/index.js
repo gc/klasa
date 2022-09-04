@@ -3,11 +3,6 @@ module.exports = {
 	KlasaClient: require('./lib/Client'),
 	Client: require('./lib/Client'),
 
-	// lib/extensions
-	KlasaMessage: require('./lib/extensions/KlasaMessage'),
-	KlasaUser: require('./lib/extensions/KlasaUser'),
-
-
 	// lib/structures/base
 	AliasPiece: require('./lib/structures/base/AliasPiece'),
 	AliasStore: require('./lib/structures/base/AliasStore'),
@@ -15,31 +10,12 @@ module.exports = {
 	Store: require('./lib/structures/base/Store'),
 
 	// lib/structures
-	Argument: require('./lib/structures/Argument'),
-	ArgumentStore: require('./lib/structures/ArgumentStore'),
-	Command: require('./lib/structures/Command'),
-	CommandStore: require('./lib/structures/CommandStore'),
 	Event: require('./lib/structures/Event'),
 	EventStore: require('./lib/structures/EventStore'),
-	Extendable: require('./lib/structures/Extendable'),
-	ExtendableStore: require('./lib/structures/ExtendableStore'),
-	Finalizer: require('./lib/structures/Finalizer'),
-	FinalizerStore: require('./lib/structures/FinalizerStore'),
 	Language: require('./lib/structures/Language'),
 	LanguageStore: require('./lib/structures/LanguageStore'),
-	Monitor: require('./lib/structures/Monitor'),
-	MonitorStore: require('./lib/structures/MonitorStore'),
-	MultiArgument: require('./lib/structures/MultiArgument'),
 	Task: require('./lib/structures/Task'),
 	TaskStore: require('./lib/structures/TaskStore'),
-
-	// lib/usage
-	CommandPrompt: require('./lib/usage/CommandPrompt'),
-	CommandUsage: require('./lib/usage/CommandUsage'),
-	Usage: require('./lib/usage/Usage'),
-	Possible: require('./lib/usage/Possible'),
-	Tag: require('./lib/usage/Tag'),
-	TextPrompt: require('./lib/usage/TextPrompt'),
 
 	// lib/util
 	Colors: require('./lib/util/Colors'),
@@ -55,9 +31,6 @@ module.exports = {
 	// version
 	version: require('../package').version
 };
-
-Object.assign(module.exports, require('@klasa/querybuilder'));
-Object.assign(module.exports, require('@klasa/settings-gateway'));
 
 /**
  * @external Channel
