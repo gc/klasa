@@ -10,12 +10,8 @@ module.exports = {
 	Store: require('./lib/structures/base/Store'),
 
 	// lib/structures
-	Event: require('./lib/structures/Event'),
-	EventStore: require('./lib/structures/EventStore'),
 	Language: require('./lib/structures/Language'),
 	LanguageStore: require('./lib/structures/LanguageStore'),
-	Task: require('./lib/structures/Task'),
-	TaskStore: require('./lib/structures/TaskStore'),
 
 	// lib/util
 	Colors: require('./lib/util/Colors'),

@@ -108,22 +108,6 @@ declare module 'klasa' {
 	}
 
 
-	export abstract class Event extends Piece {
-		public constructor(store: EventStore, file: string[], directory: string, options?: EventOptions);
-		public emitter: NodeJS.EventEmitter;
-		public event: string;
-		public once: boolean;
-		private _listener: Function;
-
-		public abstract run(...params: any[]): void;
-		public toJSON(): PieceEventJSON;
-
-		private _run(param: any): void;
-		private _runOnce(...args: any[]): Promise<void>;
-		private _listen(): void;
-		private _unlisten(): void;
-	}
-
 	export abstract class Language extends Piece {
 		public constructor(store: LanguageStore, file: string[], directory: string, options?: LanguageOptions);
 		public language: Record<string, string | string[] | ((...args: any[]) => string | string[])>;
@@ -147,11 +131,6 @@ declare module 'klasa' {
 		protected _run(message: KlasaMessage): Promise<void>;
 	}
 
-	export abstract class Task extends Piece {
-		public constructor(store: TaskStore, file: string[], directory: string, options?: TaskOptions);
-		public abstract run(data?: any): unknown;
-		public toJSON(): PieceTaskJSON;
-	}
 
 //#endregion Pieces
 
@@ -196,7 +175,6 @@ declare module 'klasa' {
 		public run(message: KlasaMessage): Promise<void>;
 	}
 
-	export class TaskStore extends Store<string, Task, typeof Task> { }
 
 //#endregion Stores
 
@@ -394,7 +372,6 @@ declare module 'klasa' {
 		events?: EventOptions;
 		languages?: LanguageOptions;
 		monitors?: MonitorOptions;
-		tasks?: TaskOptions;
 	}
 
 	export type ReadyMessage = string | ((client: KlasaClient) => string);
@@ -463,7 +440,6 @@ declare module 'klasa' {
 
 	export interface SerializerOptions extends AliasPieceOptions { }
 	export interface LanguageOptions extends PieceOptions { }
-	export interface TaskOptions extends PieceOptions { }
 
 	export interface PieceJSON {
 		directory: string;
@@ -495,7 +471,6 @@ declare module 'klasa' {
 	export interface PieceMonitorJSON extends PieceJSON, Required<MonitorOptions> { }
 	export interface PieceSerializerJSON extends AliasPieceJSON, Required<SerializerOptions> { }
 	export interface PieceLanguageJSON extends PieceJSON, Required<LanguageOptions> { }
-	export interface PieceTaskJSON extends PieceJSON, Required<TaskOptions> { }
 
 	// Util
 	export enum ColorsClose {
@@ -682,8 +657,6 @@ import { Guild } from 'discord.js';
 			userBaseDirectory: string;
 			console: KlasaConsole;
 			languages: LanguageStore;
-			tasks: TaskStore;
-			events: EventStore;
 			pieceStores: Collection<string, any>;
 			gateways: GatewayDriver;
 			ready: boolean;

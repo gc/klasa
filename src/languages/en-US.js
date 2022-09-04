@@ -110,7 +110,6 @@ module.exports = class extends Language {
 				'• ✅ "Finalizers", which run after successful commands (for logging, collecting stats, cleaning up responses, etc.)',
 				'• ➕ "Extendables", which passively add methods, getters/setters, or static properties to existing Discord.js or Klasa classes',
 				'• 🌐 "Languages", which allow you to localize your bot\'s responses',
-				'• ⏲ "Tasks", which can be scheduled to run in the future, optionally repeating',
 				'',
 				'We hope to be a 100% customizable framework that can cater to all audiences. We do frequent updates and bugfixes when available.',
 				"If you're interested in us, check us out at https://klasa.js.org"

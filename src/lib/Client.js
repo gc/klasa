@@ -3,9 +3,7 @@ const path = require('path');
 
 
 // lib/structures
-const EventStore = require('./structures/EventStore');
 const LanguageStore = require('./structures/LanguageStore');
-const TaskStore = require('./structures/TaskStore');
 
 // lib/util
 const KlasaConsole = require('./util/KlasaConsole');
@@ -56,19 +54,6 @@ class KlasaClient extends Discord.Client {
 		 */
 		this.languages = new LanguageStore(this);
 
-		/**
-		 * The cache where events are stored
-		 * @since 0.0.1
-		 * @type {EventStore}
-		 */
-		this.events = new EventStore(this);
-
-		/**
-		 * The cache where tasks are stored
-		 * @since 0.5.0
-		 * @type {TaskStore}
-		 */
-		this.tasks = new TaskStore(this);
 
 		/**
 		 * A Store registry
@@ -78,9 +63,7 @@ class KlasaClient extends Discord.Client {
 		this.pieceStores = new Discord.Collection();
 
 		this
-			.registerStore(this.languages)
-			.registerStore(this.events)
-			.registerStore(this.tasks);
+			.registerStore(this.languages);
 
 		const coreDirectory = path.join(__dirname, '../');
 		for (const store of this.pieceStores.values()) store.registerCoreDirectory(coreDirectory);

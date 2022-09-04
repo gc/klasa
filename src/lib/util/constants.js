@@ -54,8 +54,7 @@ exports.DEFAULTS = {
 				enabled: true,
 				once: false
 			},
-			languages: { enabled: true },
-			tasks: { enabled: true }
+			languages: { enabled: true }
 		},
 		slowmode: 0,
 		slowmodeAggressive: false
